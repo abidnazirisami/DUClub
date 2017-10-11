@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+<!--{% block title %}Login{% endblock %} -->
+
+{% block content %} 
+<style>
+h2
+{
+    color: white;
+}
+h3
+{
+    color: white; 
+}
+button1 {
+    background-color: transparent;
+    background-repeat:no-repeat;
+    border: transparent;
+    cursor: pointer;
+    overflow: hidden;
+    outline: transparent;
+    color: white; 
+   text-decoration: none;
+padding: 4%;
+font-size: 20px;
+
+}
+
+</style>
+
+
+
+<div id="container">
+<a href="/"> <button1 id="Home" >Home</button1></a>
+<a href="/foodList/"> <button1 id="Food" >Food</button1></a>
+    <button1 id="Lounge">Lounge</button1>
+	<button1 id="Games">Game</button1>
+	<button1 id="Members">Members</button1>
+	<button1 id="Shop list">Shop List</button1>
+	<button1 id="About">About</button1>
+    </div>
+ <div>
+<hr>
+ <h3>Select a day</h3>
+<select name="forma" onchange="location = this.value;">
+ <option>Select one</option>
+ <option value="/foodList">All</option>
+ <option value="/foodList/Saturday">Saturday</option>
+ <option value="/foodList/Sunday">Sunday</option>
+ <option value="/foodList/Monday">Monday</option>
+ <option value="/foodList/Tuesday">Tuesday</option>
+ <option value="/foodList/Wednesday">Wednesday</option>
+ <option value="/foodList/Thursday">Thursday</option>
+ <option value="/foodList/Friday">Friday</option>
+</select>
+</div>
+<!-- The Drop down key
+ <h3>Select an item</h3>
+<select name="forma" onchange="location = this.value;">
+ <option value="/foodList">Home</option>
+ <option value="/foodList">Contact</option>
+ <option value="/foodList">Sitemap</option>
+</select>
+--> 
+<!--</select>-->
+{% endblock %}
+
+
+
+
+
+
+
+
+ <!--<h2>Click to see the list of food items</h2>
+  <a href="/foodList"> <button1 >Show the list</button1> </a>-->
+
+

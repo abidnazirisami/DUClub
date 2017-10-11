@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <meta charset="utf-8">
+  <title>{% block title %}DU Club{% endblock %}</title>
+<style>
+
+    body {
+	background-image: url(https://i.ytimg.com/vi/fNcORgbMoYA/maxresdefault.jpg);
+	background-color: #7e7d8c;
+        background-size: 1600px 900px;
+        background-repeat: no repeat;
+    } 
+    header
+    {
+        color: white;
+    }
+
+	
+</style>
+</head>
+
+<body>
+  <center>  
+  <header>
+    <h1 align="left">DU Club</h1>
+    {% if user.is_authenticated %}
+<p align ="left">
+      Welcome to the club, {{ user.username }}! <br> </br>
+      <a href="{% url 'logout' %}"><button >Logout</button></a>
+</p>
+    {% else %}
+<p align ="left">
+      <a href="{% url 'login' %}"><button >Log in</button></a>
+</p>
+    {% endif %}
+  </header>
+  <hr>
+  <main>
+    {% block content %}
+    {% endblock %}
+  </main>
+  <hr>
+  <footer>
+   <!--<a href="http://simpleisbetterthancomplex.com">simpleisbetterthancomplex.com</a> -->
+  </footer>
+  </center>
+</body>
+</html>
