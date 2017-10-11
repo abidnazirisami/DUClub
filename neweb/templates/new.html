@@ -1,9 +1,6 @@
-
-{% include "home.html" %}
-
+{% extends "food.html" %}
+<!--{% block title %}Available Foods{% endblock %} -->
 {% block content %}
-
-  
 <style>
 body
 {
@@ -11,7 +8,7 @@ body
 }
 
 </style>
-<body>
+<div>
 <table border = "1" align = "center" > 
 <tr> <td> <b> Food Name </b></td><td> <b> Food Price </b> </td> </tr>
 <tr> <td> <b> {{food.0.name}}</b></td><td> <b> {{food.0.price}} </b> </td> </tr>
@@ -31,5 +28,5 @@ body
 <tr> <td> <b> {{food.14.name}} </b></td><td> <b> {{food.14.price}} </b> </td> </tr>
 <tr> <td> <b> {{food.15.name}} </b></td><td> <b> {{food.15.price}} </b> </td> </tr>
 </table>
-</body>
+</div>
 {% endblock %}

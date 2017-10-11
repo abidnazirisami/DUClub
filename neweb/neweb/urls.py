@@ -24,7 +24,7 @@ from neweb.views import getWeeklyList
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^foodPrice/(.{1,30})', getPrice),
-    url(r'^foods/$', getList),
+    url(r'^foods/$', TemplateView.as_view(template_name='food.html'), name='Food'),
     url(r'^foodList/(.{0,30})$', getWeeklyList),
     url(r'^$', TemplateView.as_view(template_name='home.html'), name='home'),
     url(r'^login/$', auth_views.login, {'template_name': 'login.html'}, name='login'),

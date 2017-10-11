@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.shortcuts import render_to_response
+from django.views.generic.base import TemplateView
 import MySQLdb
 class Food:
     counter=0
@@ -77,5 +78,5 @@ def getWeeklyList(request, day):
             if (((i[2]-90000000)/div)>=(1000000/div) and ((i[2]-90000000)/div)%2==1 ) or div==2:
                 foodList.append(Food(i[0],i[1]))
                 
-	return render_to_response('new.html',{'food':foodList}) 
+	return render_to_response("new.html",{'food':foodList}) 
 

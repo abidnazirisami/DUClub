@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+
+<!--{% block title %}Food Items{% endblock %} -->
+
+{% block content %}
+<style>
+h2
+{
+    color: white;
+}
+h3
+{
+    color: white; 
+}
+button1 {
+    background-color: transparent;
+    background-repeat:no-repeat;
+    border: transparent;
+    cursor: pointer;
+    overflow: hidden;
+    outline: transparent;
+    color: white; 
+   text-decoration: none;
+padding: 4%;
+font-size: 20px;
+
+}
+
+</style>
+<div align = "center">
+ <hr>
+ <h3>Select a day</h3>
+<select name="forma" onchange="location = this.value;" >
+ <option>Select one</option>
+ <option value="/foodList">All</option>
+ <option value="/foodList/Saturday">Saturday</option>
+ <option value="/foodList/Sunday">Sunday</option>
+ <option value="/foodList/Monday">Monday</option>
+ <option value="/foodList/Tuesday">Tuesday</option>
+ <option value="/foodList/Wednesday">Wednesday</option>
+ <option value="/foodList/Thursday">Thursday</option>
+ <option value="/foodList/Friday">Friday</option>
+</select>
+
+</div>
+{% endblock %}
