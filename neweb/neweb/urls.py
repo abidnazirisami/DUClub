@@ -17,16 +17,17 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.views.generic.base import TemplateView
-from neweb.views import getPrice
-from neweb.views import getList
-from neweb.views import getWeeklyList
+from neweb.views import *
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^foodPrice/(.{1,30})', getPrice),
     url(r'^foods/$', TemplateView.as_view(template_name='food.html'), name='Food'),
     url(r'^foodList/(.{0,30})$', getWeeklyList),
+	url(r'^searchMember/$', searchMember),
+	url(r'^CompleteSearch/(.{0,30})$',completeSearch),
     url(r'^$', TemplateView.as_view(template_name='home.html'), name='home'),
     url(r'^login/$', auth_views.login, {'template_name': 'login.html'}, name='login'),
     url(r'^logout/$', auth_views.logout, {'template_name': 'logged_out.html'}, name='logout'),
+    url(r'^search/$', search),
 ]

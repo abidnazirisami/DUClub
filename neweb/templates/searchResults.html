@@ -1,0 +1,21 @@
+{% include "search.html" %}
+<!--{% block title %}Results{% endblock %} -->
+{% block content %}
+<style>
+body
+{
+    color: white;
+}
+
+</style>
+<div>
+<table border = "1" align = "center" > 
+
+<tr> <td> <b> Member ID </b></td><td> <b> Member Name </b> </td> </tr>
+{% for foods in member %}
+    <tr> <td> <b> {{foods.id}}</b></td><td> <b> {{foods.name}} </b> </td> </tr>
+  {% endfor %}
+</table>
+</div>
+{% endblock %}
+

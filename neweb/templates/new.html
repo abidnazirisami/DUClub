@@ -10,23 +10,11 @@ body
 </style>
 <div>
 <table border = "1" align = "center" > 
+
 <tr> <td> <b> Food Name </b></td><td> <b> Food Price </b> </td> </tr>
-<tr> <td> <b> {{food.0.name}}</b></td><td> <b> {{food.0.price}} </b> </td> </tr>
-<tr> <td> <b> {{food.1.name}} </b></td><td> <b> {{food.1.price}} </b> </td> </tr>
-<tr> <td> <b> {{food.2.name}} </b></td><td> <b> {{food.2.price}} </b> </td> </tr>
-<tr> <td> <b> {{food.3.name}} </b></td><td> <b> {{food.3.price}} </b> </td> </tr>
-<tr> <td> <b> {{food.4.name}}</b></td><td> <b> {{food.4.price}} </b> </td> </tr>
-<tr> <td> <b> {{food.5.name}} </b></td><td> <b> {{food.5.price}} </b> </td> </tr>
-<tr> <td> <b> {{food.6.name}} </b></td><td> <b> {{food.6.price}} </b> </td> </tr>
-<tr> <td> <b> {{food.7.name}} </b></td><td> <b> {{food.7.price}} </b> </td> </tr>
-<tr> <td> <b> {{food.8.name}}</b></td><td> <b> {{food.8.price}} </b> </td> </tr>
-<tr> <td> <b> {{food.9.name}} </b></td><td> <b> {{food.9.price}} </b> </td> </tr>
-<tr> <td> <b> {{food.10.name}} </b></td><td> <b> {{food.10.price}} </b> </td> </tr>
-<tr> <td> <b> {{food.11.name}} </b></td><td> <b> {{food.11.price}} </b> </td> </tr>
-<tr> <td> <b> {{food.12.name}}</b></td><td> <b> {{food.12.price}} </b> </td> </tr>
-<tr> <td> <b> {{food.13.name}} </b></td><td> <b> {{food.13.price}} </b> </td> </tr>
-<tr> <td> <b> {{food.14.name}} </b></td><td> <b> {{food.14.price}} </b> </td> </tr>
-<tr> <td> <b> {{food.15.name}} </b></td><td> <b> {{food.15.price}} </b> </td> </tr>
+{% for foods in food %}
+    <tr> <td> <b> {{foods.name}}</b></td><td> <b> {{foods.price}} </b> </td> </tr>
+  {% endfor %}
 </table>
 </div>
 {% endblock %}

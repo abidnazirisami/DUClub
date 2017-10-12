@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+<!--{% block title %}Members{% endblock %} -->
+
+{% block content %}
+<style>
+h2
+{
+    color: white;
+}
+h3
+{
+    color: white; 
+}
+button1 {
+    background-color: transparent;
+    background-repeat:no-repeat;
+    border: transparent;
+    cursor: pointer;
+    overflow: hidden;
+    outline: transparent;
+    color: white; 
+   text-decoration: none;
+padding: 4%;
+font-size: 20px;
+
+}
+p
+{
+color:white
+}
+</style>
+<hr>
+
+<div style="display: inline-block; position: relative;";>
+<h3>Search a member with name or id<h3>
+ <form method="POST" action="/search/">
+{% csrf_token %}
+<input type="text" name="textfield">
+
+<button type="submit">Search</button>
+</form>
+</div>
+
+<hr>
+
+
+{% endblock %}
