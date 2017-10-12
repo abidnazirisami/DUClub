@@ -1,1 +1,1 @@
-Version 1.0.3 : Members added, Members can be searched
+Version 1.0.4 : Members added, Members can be searched
