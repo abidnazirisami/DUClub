@@ -28,20 +28,29 @@ p
 {
 color:white
 }
-</style>
-<hr>
+small
+{
+color:white;
 
-<div style="display: inline-block; position: relative;";>
-<h3>Search a member with name or id<h3>
- <form method="POST" action="/search/">
+}
+</style>
+
+
+<div style="display: inline-block; position: absolute; right: 8px; top:25px;";>
+ <form method="POST" action="/members/search/">
 {% csrf_token %}
 <input type="text" name="textfield">
-
 <button type="submit">Search</button>
+<br>
+<small style= "position:absolute; right: 115px; top:22px;"> <i> search with name or id </i> </small>
 </form>
+
+</div>
+<div style="display: inline-block; position: absolute; left: 150px; top:250px;";>
+ <a href="/members/memberForm"><button class = "btncls">Add Member</button></a>
 </div>
 
-<hr>
 
 
 {% endblock %}
+<hr>

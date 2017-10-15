@@ -16,8 +16,37 @@
     {
         color: white;
     }
+.btncls{
+    background-color:#ffffff;
+    border: #ffffff;
+  	font-family: Arial, Geneva, Arial, Helvetica,  sans-serif;
+	font-size: 15px;
+    color: #037CC1;
+    letter-spacing: 1px;
+    padding: 8px 12px;
+    font-size: 14px;
+    font-weight: normal;
+    
+    border-radius: 4px;
+    line-height: 1.5;
+    text-decoration:none;
+}
+.btncls:hover{
+    background-color:#037CC1;
+    border: #037CC1;
+  	font-family: Arial, Geneva, Arial, Helvetica,  sans-serif;
+	font-size: 15px;
+    color: #ffffff;
+    letter-spacing: 1px;
+    padding: 8px 12px;
+    font-size: 14px;
+    font-weight: normal;
+    
+    border-radius: 4px;
+    line-height: 1.5;
+    text-decoration:none;
+}
 
-	
 </style>
 </head>
 
@@ -28,11 +57,11 @@
     {% if user.is_authenticated %}
 <p align ="left">
       Welcome to the club, {{ user.username }}! <br> </br>
-      <a href="{% url 'logout' %}"><button >Logout</button></a>
+      <a href="{% url 'logout' %}"><button class = "btncls">Logout</button></a>
 </p>
     {% else %}
 <p align ="left">
-      <a href="{% url 'login' %}"><button >Log in</button></a>
+      <a href="{% url 'login' %}"><button class = "btncls">Log in</button></a>
 </p>
     {% endif %}
   </header>

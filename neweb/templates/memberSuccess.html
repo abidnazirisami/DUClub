@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+<!--{% block title %}Success{% endblock %} -->
+
+{% block content %}
+<style>
+h3
+{
+font: 1em consolas;
+    display: inline-block;
+    position: relative;
+    width: 500px;
+    text-align: left;
+    color: #FFFFFF;
+}
+</style>
+<body>
+<hr>
+<h1 style="color:white"> Member added successfully </h1>
+<h3> Name: {{ name }} <br>
+     E-mail: {{ mail }} <br>
+     Contact No.: {{ cell_no }} <br>
+     Department: {{ dept }} <br>
+     Designation: {{ designation }} <br>
+     Member-type: {{ member_type }} <br>
+</h3>
+</body>
+
+{% endblock %}
