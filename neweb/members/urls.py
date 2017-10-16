@@ -5,8 +5,11 @@ from django.views.generic.base import TemplateView
 from .views import *
 
 urlpatterns = [
-    url(r'^searchMember/$', searchMember),
+    url(r'^$', memberHome),
     url(r'^search/$', search),
     url(r'^addMember/$', addMember),
     url(r'^memberForm/$', addMem),
+    url(r'^deleteMember/$', deleteMemberPage),
+    url(r'^updateMember/$', updateMemberPage),
+    url(r'^deleteMem/$', deleteMem),
 ]

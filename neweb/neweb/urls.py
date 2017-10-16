@@ -21,13 +21,12 @@ from neweb.views import *
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^foodPrice/(.{1,30})', getPrice),
-    url(r'^foods/$', TemplateView.as_view(template_name='food.html'), name='Food'),
-    url(r'^foodList/(.{0,30})$', getWeeklyList),
-	url(r'^CompleteSearch/(.{0,30})$',completeSearch),
     url(r'^$', TemplateView.as_view(template_name='home.html'), name='home'),
     url(r'^login/$', auth_views.login, {'template_name': 'login.html'}, name='login'),
     url(r'^logout/$', auth_views.logout, {'template_name': 'logged_out.html'}, name='logout'),
     
     url(r'^members/', include('members.urls')),
+    url(r'^lounge/', include('lounge.urls')),
+    url(r'^bill/', include('bill.urls')),
+    url(r'^food/', include('food.urls')),
 ]

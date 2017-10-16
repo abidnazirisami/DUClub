@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+<!--{% block title %}Confirm{% endblock %} -->
+
+{% block content %}
+<style>
+h3
+{
+font: 1em consolas;
+    display: inline-block;
+    position: relative;
+    width: 500px;
+    text-align: left;
+    color: #FFFFFF;
+}
+</style>
+<body>
+
+<h1 style="color:white"> Are you sure you want to delete the following member? </h1>
+<h3> <b>Name:</b> {{ name }} <br>
+     <b>Department </b>: {{ dept }} <br>
+     <b>Designation: </b>{{ designation }} <br>
+</h3>
+<br>
+<form method="post" action="/members/deleteMem/"> {% csrf_token %}
+<input type="hidden" id="memberid" name="memberid" value = {{memberid}}><button class = "btncls">Yes</button></a>
+</div>
+</form>
+</body>
+
+{% endblock %}

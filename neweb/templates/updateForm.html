@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+<!--{% block title %}Update Member{% endblock %} -->
+
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <style>
+    
+form {
+    margin: 0 auto;
+    width: 500px;
+    padding: 1em;
+    border: 1px solid #FFFFFF;
+    border-radius: 1em;
+}
+
+div+div {
+    margin-top: 1em;
+}
+
+label span {
+    font: 1em consolas;
+    display: inline-block;
+    position: relative;
+    width: 120px;
+    text-align: left;
+    color: #FFFFFF;
+}
+
+input, textarea {
+    font: 1em consolas;
+    width: 250px;
+    box-sizing: border-box;
+    border: 1px solid #999;
+}
+
+input[type=checkbox], input[type=radio] {
+    width: auto;
+    border: none;
+}
+
+input:focus, textarea:focus {
+    border-color: #000;
+}
+
+textarea {
+    vertical-align: top;
+    height: 8em;
+    resize: vertical;
+}
+
+fieldset {
+    width: 250px;
+    box-sizing: border-box;
+    margin-left: 0px;
+    border: 1px solid #999;
+}
+
+select {
+    font: 1em consolas;
+    display: inline-block;
+    position: relative;
+    width: 250px;
+    text-align: left;
+}
+
+label {
+  position: relative;
+}
+
+label em {
+  position: relative;
+}
+
+
+
+
+</style>
+    </head>
+  <body>
+    <br>
+    <form method="post" action="/members/updateMember/"> {% csrf_token %}
+    <div style="color:red">{{ warning }} <br> </div>
+    <small style="color:white"> <i> Leave out the fields which do not require updating <sup>*</sup> </i> </small>
+    <section>
+    <h2>Contact information</h2>
+    <p>
+      <label for="id">
+        <span>Member ID<sup>*</sup>: </span>
+            
+      </label>
+      <input type="text" id="memberid" name="memberid">
+    </p>
+    <p>
+      <label for="name">
+        <span>Name: </span>
+            
+      </label>
+      <input type="text" id="name" name="username">
+    </p>
+    <p>
+      <label for="mail">
+        <span>E-mail: </span>
+      </label>
+      <input type="email" id="mail" name="usermail">
+    </p>
+    <p>
+      <label for="num">
+        <span>Contact no.: </span>
+      </label>
+      <input type="text" id="cellno" name="contactno">
+    </p>
+</section>
+<section>
+    <h2>Personal information</h2>
+     <p>
+      <label for="present">
+        <span>Present Address: </span>
+        </label>
+      <input type="text" id="prad" name="userprad">
+    </p>
+     <p>
+      <label for="permanent">
+        <span>Permanent Address: </span>
+      </label>
+      <input type="text" id="pmad" name="userpmad">
+    </p>
+     <p>
+      <label for="dept">
+        <span>Department: </span>
+      </label>
+      <input type="text" id="dept" name="userdept">
+    </p>
+    <p>
+      <label for="post">
+        <span>Designation<sup>*</sup>:</span>
+      </label>
+      <select id="post" name="userdesignation">
+        <option value="Professor">Professor</option>
+        <option value="Associate Professor">Associate Professor</option>
+        <option value="Assistant Professor">Assistant Professor</option>
+        <option value="Lecturer">Lecturer</option>
+        <option value="Other">Other</option>
+      </select>
+    </p>
+    <p>
+      <label for="stat">
+        <span>Status:<sup>*</sup></span>
+      </label>
+      <select id="stat" name="userstat">
+        <option value="Active">Active</option>
+        <option value="Inactive">Inactive</option>
+      </select>
+    </p>
+    <p>
+      <label for="type">
+        <span>Type:<sup>*</sup></span>
+      </label>
+      <select id="type" name="usertype">
+        <option value="General">General</option>
+        <option value="Associate">Privileged</option>
+      </select>
+    </p>
+</section>
+<button class="btncls" type="submit" >Update Member</button>
+
+    </form>
+    <hr>
+  </body>
+</html>
+
+{% endblock %}

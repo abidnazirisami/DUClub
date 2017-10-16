@@ -22,19 +22,52 @@ font-size: 20px;
 
 }
 
+/* https://www.w3schools.com/css/css_navbar.asp */
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0px 30px;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 15px 40px;
+    text-decoration: none;
+}
+a {
+    font: 1em consolas;
+    font-size: 20px
+    
+}
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+    background-color: #037CC1;
+}
+
+.active {
+    background-color: #333;
+}
+
 </style>
 
+<ul>
+  <li><a href="/">Home</a></li>
+  <li><a href="/food/">Food</a></li>
+  <li><a href="/members/">Members</a></li>
+  <li><a href="/lounge/">Lounge</a></li>
+  <li><a href="/bill/">Bill</a></li>
+  <li style="float:right"><a class="active">About</a></li>
+</ul>
 
 
-<div id="container">
-<a href="/"> <button1 id="Home" >Home</button1></a>
-<a href="/foodList/"> <button1 id="Food" >Food</button1></a>
-    <button1 id="Lounge">Lounge</button1>
-	<button1 id="Games">Game</button1>
-<a href="/members/searchMember/"> <button1 id="Members">Members</button1></a>
-	<button1 id="Shop list">Shop List</button1>
-	<button1 id="About">About</button1>
-    </div>
  
-
 {% endblock %}

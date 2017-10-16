@@ -81,7 +81,7 @@ label em {
 </style>
     </head>
   <body>
-    <hr>
+    <br>
     <form method="post" action="/members/addMember/"> {% csrf_token %}
     <div style="color:red">{{ warning }} <br> </div>
     <small style="color:white"> <i> Required fields are marked with <sup>*</sup> </i> </small>
@@ -155,13 +155,14 @@ label em {
       </label>
       <select id="type" name="usertype">
         <option value="General">General</option>
-        <option value="Priviledged">Privileged</option>
+        <option value="Associate">Privileged</option>
       </select>
     </p>
 </section>
 <button class="btncls" type="submit" >Add Member</button>
 
     </form>
+    <hr>
   </body>
 </html>
 

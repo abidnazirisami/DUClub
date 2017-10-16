@@ -59,22 +59,24 @@
       Welcome to the club, {{ user.username }}! <br> </br>
       <a href="{% url 'logout' %}"><button class = "btncls">Logout</button></a>
 </p>
+      
+  {% include "menubar.html" %}
+  
+  <footer>
+   <!--<a href="http://simpleisbetterthancomplex.com">simpleisbetterthancomplex.com</a> -->
+  </footer>
+  
     {% else %}
 <p align ="left">
       <a href="{% url 'login' %}"><button class = "btncls">Log in</button></a>
 </p>
+    
     {% endif %}
   </header>
-  <hr>
-  {% include "menubar.html" %}
   <main>
     {% block content %}
     {% endblock %}
   </main>
-  <hr>
-  <footer>
-   <!--<a href="http://simpleisbetterthancomplex.com">simpleisbetterthancomplex.com</a> -->
-  </footer>
   </center>
 </body>
 </html>

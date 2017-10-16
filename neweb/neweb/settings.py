@@ -31,8 +31,10 @@ ALLOWED_HOSTS = ['localhost']
 # Application definition
 
 INSTALLED_APPS = [
-    'foodlist',
-
+    'lounge',
+    'members',
+    'food',
+    'bill',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

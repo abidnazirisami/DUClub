@@ -1,5 +1,21 @@
-
 {% include "foodbar.html" %}
+<!--{% block title %}Available Foods{% endblock %} -->
 {% block content %}
+<style>
+body
+{
+    color: white;
+}
 
+</style>
+<br>
+<div>
+<table border = "1" align = "center" > 
+
+<tr> <td> <b> Food Name </b></td><td> <b> Food Price </b> </td> </tr>
+{% for foods in food %}
+    <tr> <td> <b> {{foods.name}}</b></td><td> <b> {{foods.price}} </b> </td> </tr>
+  {% endfor %}
+</table>
+</div>
 {% endblock %}

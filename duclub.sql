@@ -124,3 +124,32 @@ END //
 
 delimiter ;
 
+
+delimiter //
+CREATE PROCEDURE deleteMember (IN memID int)
+BEGIN
+delete from Accounts
+where memberID = memID;
+END //
+
+delimiter ;
+
+
+delimiter //
+CREATE PROCEDURE updateMember (IN memid int, IN name VARCHAR(255), IN cell_no VARCHAR(20), IN presentad VARCHAR(2555), IN permanentad VARCHAR(2555), IN designation VARCHAR(100), IN dept VARCHAR(100), IN status VARCHAR(40), mail VARCHAR(100), type VARCHAR(255))
+BEGIN
+update Accounts
+set MemberName = name, MemberContactNo = cell_no, MemberPresentAdress = presentad, MemberPermanentAdress = permanentad, designation = designation, department = dept, status = status, email = mail , type = type
+where memberID = memid;
+
+END //
+
+delimiter ;
+
+delimiter //
+CREATE PROCEDURE addLounge (IN name VARCHAR(255))
+BEGIN
+INSERT INTO Lounge(LoungeName)
+VALUES (name);
+END //
+delimiter ;

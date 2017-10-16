@@ -33,20 +33,39 @@ small
 color:white;
 
 }
+
+/*https://www.w3schools.com/css/tryit.asp?filename=trycss_form_search_anim*/
+
+input[type=text] {
+    width: 90px;
+    height: 40px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: white;
+    font: 1em consolas;
+    padding: 12px 20px 12px 20px;
+    -webkit-transition: width 0.2s ease-in-out;
+    transition: width 0.2s ease-in-out;
+}
+
+input[type=text]:focus {
+    width: 100%;
+}
+
 </style>
 
 
-<div style="display: inline-block; position: absolute; right: 8px; top:25px;";>
+<div style="display: inline-block;position: absolute; right: 170px; top:175px;";>
  <form method="POST" action="/members/search/">
 {% csrf_token %}
-<input type="text" name="textfield">
-<button type="submit">Search</button>
-<br>
-<small style= "position:absolute; right: 115px; top:22px;"> <i> search with name or id </i> </small>
+<input type="text" name="textfield" placeholder="Search with name or id.."><br>
+
 </form>
 
 </div>
-<div style="display: inline-block; position: absolute; left: 150px; top:250px;";>
+<div style="display: inline-block; position: absolute; left: 75px; top:250px;";>
  <a href="/members/memberForm"><button class = "btncls">Add Member</button></a>
 </div>
 
