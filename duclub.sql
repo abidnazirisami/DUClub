@@ -153,3 +153,55 @@ INSERT INTO Lounge(LoungeName)
 VALUES (name);
 END //
 delimiter ;
+
+
+delimiter //
+CREATE PROCEDURE addLounge (IN name VARCHAR(255))
+BEGIN
+INSERT INTO Lounge(LoungeName)
+VALUES (name);
+END //
+delimiter;
+
+
+delimiter //
+CREATE PROCEDURE deleteLounge (IN lngID int)
+BEGIN
+delete from Lounge
+where loungeID = lngID;
+END //
+
+delimiter ;
+
+delimiter //
+CREATE PROCEDURE updateLounge (IN longeid int,IN name VARCHAR(255))
+BEGIN
+update Lounge
+set loungeName = name
+where loungeID = longeid;
+
+END //
+
+delimiter ;
+
+delimiter //
+CREATE PROCEDURE searchMemWithName (IN search_id VARCHAR(255))
+BEGIN
+select MemberID, MemberName from Accounts where MemberName like CONCAT('%', search_id, '%');
+END //
+delimiter ;
+
+
+delimiter //
+CREATE PROCEDURE searchMemWithID (IN search_id int(11))
+BEGIN
+select MemberID, MemberName from Accounts where MemberID = search_id;
+END //
+delimiter ;
+
+delimiter //
+CREATE PROCEDURE searchMemAll ()
+BEGIN
+select MemberID, MemberName from Accounts;
+END //
+delimiter ;

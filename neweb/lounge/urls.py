@@ -9,4 +9,11 @@ urlpatterns = [
     url(r'^search/$', search),
     url(r'^addLounge/$', addLounge),
     url(r'^loungeForm/$', addLng),
+    url(r'^deleteLounge/$', deleteLounge),
+    url(r'^deleteLng/$', deleteLng),
+    url(r'^updateLounge/$', updateLounge),
+    
+    url(r'^add/$', addLoungePage),
+    url(r'^delete/$', deleteLoungePage),
+    url(r'^update/$', updateLoungePage),
 ]

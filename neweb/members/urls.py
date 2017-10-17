@@ -10,6 +10,8 @@ urlpatterns = [
     url(r'^addMember/$', addMember),
     url(r'^memberForm/$', addMem),
     url(r'^deleteMember/$', deleteMemberPage),
+    url(r'^delete/$', deleteMember),
     url(r'^updateMember/$', updateMemberPage),
+    url(r'^update/$', updateMember),
     url(r'^deleteMem/$', deleteMem),
 ]

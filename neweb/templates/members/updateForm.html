@@ -82,7 +82,7 @@ label em {
     </head>
   <body>
     <br>
-    <form method="post" action="/members/updateMember/"> {% csrf_token %}
+    <form method="post" action="/members/update/"> {% csrf_token %}
     <div style="color:red">{{ warning }} <br> </div>
     <small style="color:white"> <i> Leave out the fields which do not require updating <sup>*</sup> </i> </small>
     <section>
@@ -161,7 +161,7 @@ label em {
       </label>
       <select id="type" name="usertype">
         <option value="General">General</option>
-        <option value="Associate">Privileged</option>
+        <option value="Privileged">Privileged</option>
       </select>
     </p>
 </section>

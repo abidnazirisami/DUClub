@@ -11,3 +11,9 @@ Version 1.2.0 :
     - SQL updated with new procedures
     - Somewhat cleaned up
     - Added a bash script to start the server
+Version 1.2.5 :
+    - Added the functionality of updating and deleting lounge
+    - Created a game for app, it's under construction
+    - Organized the templates of members and lounge
+    - Applied singleton pattern
+    - Replaced some sql commands with stored procedures
