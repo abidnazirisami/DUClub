@@ -57,8 +57,8 @@ input[type=text]:focus {
 </style>
 
 
-<div style="display: inline-block;position: absolute; right: 170px; top:175px;";>
- <form method="POST" action="/members/search/">
+<div style="display: inline-block;position: absolute; right: 130px; top:190px;";>
+<form method="POST" action="/members/search/">
 {% csrf_token %}
 <input type="text" name="textfield" placeholder="Search with name or id.."><br>
 
@@ -77,6 +77,7 @@ input[type=text]:focus {
 </div>
 <div style="display: inline-block; position: absolute; left: 75px; top:350px;";>
  <a href="/members/updateMember"><button class = "btncls">Update Member</button></a>
+</div>
 </div>
 
 {% endblock %}

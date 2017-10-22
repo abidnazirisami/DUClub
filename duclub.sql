@@ -104,7 +104,26 @@ CONSTRAINT FK_BillFoodID FOREIGN KEY (FoodID) REFERENCES FoodItem(FoodID)
 
 );
 
-
+INSERT INTO Accounts (MemberName, MemberContactNo, MemberPresentAdress, MemberPermanentAdress, designation, email) VALUES
+('A A M S Arefin Siddique', '+8801700000000', 'V C Banglo', 'Dhaka','',  'email@example.com' ),
+('Dr. (Mrs.) Begum Akhter Kamal', '1711282835', '', '','', 'trinatanniarush@gmail.com'),
+('Dr. (Mrs.) Siddiqua Mahmuda', '9611997', '', '', '',  'hmahmuda001@hotmail.com'),
+('Dr. Bismadeb Chowdhury', '1715547113', '', '','',  'bdarpi@yahoo.com'),
+('Dr. Biswajit Ghosh', '11199029200', '', '','',  'bgdubd1957@gmail.com'),
+('Dr. Syed Md. Shahed', '9887802', '', '','',   'bng05@gmail.com'),
+('Rafique Ullah Khan', '1715150685', '', '','',  'khanrafique_ullah@yahoo.com'),
+('Dr. Md. Shajahan Mia', '1715042588', '', '','',  'bng07@gmail.com'),
+('Dr. Syed Azizul Huq', '1748213112', '', '','',   'bng08@gmail.com'),
+('Dr. Mrs. Fatema Kawser', '1552313382', '', '','',  'bng09@gmail.com'),
+('Dr. Serajul Islam (Seraj Salekin)', '1556981186','', '', '',  'serajsalekeen@gmail.com'),
+('Dr. Soumitra Sekhar Dey', '1732102103', '', '','',   'scpcdu@gmail.com'),
+('Dr. Baitullah Quaderee', '', '', '','',  'quaderee@yahoo.com'),
+('Dr. Md. Giashuddin (Gias Shameem)', '1552341789', '', '','',  'bng11@gmail.com'),
+('Dr. Nurunnaher Feayzur Nessa', '9117107', '', '','',  'naher601@gmail.com'),
+('Mrs. Hosne Ara', '9668136', '','', '',  'hosneara-happy@gmail.com'),
+('Dr Md. Abdus Sobhan Talukder', '1713046183', '', '','',   'bng12@gmail.com'),
+('Dr. Mohammad Azam', '1552541646', '', '','',  'mazam1975@hotmail.com'),
+('Mrs. Meher Niger', '1731021670', '', '','', 'junebdc@yahoo.com');
 
 
 delimiter //
@@ -205,3 +224,7 @@ BEGIN
 select MemberID, MemberName from Accounts;
 END //
 delimiter ;
+
+
+
+

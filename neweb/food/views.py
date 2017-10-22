@@ -5,13 +5,61 @@ from django.views.generic.base import TemplateView
 from django.template import RequestContext
 import MySQLdb
 import abc, six
-
+from neweb.views import *
 class Food:
     counter=0
     def __init__(self, name, price):
         self.name = name
         self.price = price
         Food.counter += 1
+################################################################
+class List:
+    counter=0
+    saturday=0
+    sunday=0
+    monday=0
+    tuesday=0
+    wednesday=0
+    thursday=0
+    friday=0
+    allday=0
+    def inc(self, day):
+        if day=='Saturday':
+            self.saturday+=1
+        elif day=='Sunday':
+            self.sunday+=1
+        elif day=='Monday':
+            self.monday+=1
+        elif day=='Tuesday':
+            self.tuesday+=1
+        elif day=='Wednesday':
+            self.wednesday+=1
+        elif day=='Thursday':
+            self.thursday+=1
+        elif day=='Friday':
+            self.friday+=1
+        else:
+            self.allday+=1
+    def calc(self):
+        conn=dbase()
+        cursor=conn.getCursor()
+        cursor.execute("select FoodName, FoodPrice, weekBitmask from FoodItem")
+        row=cursor.fetchall()
+        day=['Saturday',
+            'Sunday',
+            'Monday',
+            'Tuesday',
+            'Wednesday',
+            'Thursday',
+            'Friday']
+        count=0
+        for div in [1000000,100000,10000,1000,100,10,1]:
+            for i in row:
+                if(count==0):
+                    self.inc('all')
+                if (((i[2]-90000000)/div)>=(1000000/div) and ((i[2]-90000000)/div)%2==1 ) or div==2:
+                    self.inc(day[count])
+            count+=1
 ################################################################
 def getPrice(request, name):
     conn = MySQLdb.connect (host = "localhost",
@@ -73,15 +121,16 @@ def getWeeklyList(request, day):
     else:
         div=2;
     if cursor.rowcount == 0:
-        return render(request, "food.html", context = {'food':foodList}) 
+        return render(request, "food/food.html", context = {'food':foodList}) 
     else:
         foodList=[]
+        weekList=List()
+        weekList.calc()
         row = cursor.fetchall()
         for i in row:
             if (((i[2]-90000000)/div)>=(1000000/div) and ((i[2]-90000000)/div)%2==1 ) or div==2:
                 foodList.append(Food(i[0],i[1]))
-                
-	return render(request, "food.html", context = {'food':foodList}) 
+	return render(request, "food/food.html", context = {'food':foodList, 'week':weekList}) 
 
 
 

@@ -11,17 +11,19 @@
 	background-color: #7e7d8c;
         background-size: 1600px 900px;
         background-repeat: no repeat;
+        margin: 0px;
     } 
     header
     {
         color: white;
+        
     }
 .btncls{
     background-color:#ffffff;
     border: #ffffff;
   	font-family: Arial, Geneva, Arial, Helvetica,  sans-serif;
 	font-size: 15px;
-    color: #037CC1;
+    color: #26a69a;
     letter-spacing: 1px;
     padding: 8px 12px;
     font-size: 14px;
@@ -32,8 +34,8 @@
     text-decoration:none;
 }
 .btncls:hover{
-    background-color:#037CC1;
-    border: #037CC1;
+    background-color:#26a69a;
+    border: #26a69a;
   	font-family: Arial, Geneva, Arial, Helvetica,  sans-serif;
 	font-size: 15px;
     color: #ffffff;
@@ -53,9 +55,9 @@
 <body>
   <center>  
   <header>
-    <h1 align="left">DU Club</h1>
+    <h1 align="left" style="margin: 25px">DU Club</h1>
     {% if user.is_authenticated %}
-<p align ="left">
+<p align ="left" style="margin: 25px">
       Welcome to the club, {{ user.username }}! <br> </br>
       <a href="{% url 'logout' %}"><button class = "btncls">Logout</button></a>
 </p>
