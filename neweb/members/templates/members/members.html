@@ -51,31 +51,31 @@ input[type=text] {
 }
 
 input[type=text]:focus {
+
     width: 100%;
 }
 
 </style>
 
-
-<div style="display: inline-block;position: absolute; right: 130px; top:190px;";>
+<div style="display: inline-block;position: absolute; right: 130px; top:167px;";>
 <form method="POST" action="/members/search/">
 {% csrf_token %}
-<input type="text" name="textfield" placeholder="Search with name or id.."><br>
+<input class="browser-default" type="text" name="textfield" placeholder="Search with name or id.."><br>
 
 </form>
 
 </div>
-<div style="display: inline-block; position: absolute; left: 75px; top:250px;";>
+<div style="display: inline-block; position: absolute; left: 75px; top:290px;";>
  <a href="/members/memberForm"><button class = "btncls">Add Member</button></a>
 </div>
 
 </div>
-<div style="display: inline-block; position: absolute; left: 75px; top:300px;";>
+<div style="display: inline-block; position: absolute; left: 75px; top:340px;";>
  <a href="/members/deleteMember"><button class = "btncls">Delete Member</button></a>
 </div>
 
 </div>
-<div style="display: inline-block; position: absolute; left: 75px; top:350px;";>
+<div style="display: inline-block; position: absolute; left: 75px; top:390px;";>
  <a href="/members/updateMember"><button class = "btncls">Update Member</button></a>
 </div>
 </div>

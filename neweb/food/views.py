@@ -3,15 +3,39 @@ from django.shortcuts import render
 from django.shortcuts import render_to_response
 from django.views.generic.base import TemplateView
 from django.template import RequestContext
+import datetime
 import MySQLdb
 import abc, six
 from neweb.views import *
 class Food:
     counter=0
+    
     def __init__(self, name, price):
         self.name = name
         self.price = price
+        self.days=[]
+        self.times=[]
+        self.weekDayList = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
+        self.dayTimeList = ['Breakfast','Lunch','Snacks','Dinner']
+        self.available="Not Available"
         Food.counter += 1
+    def weeks(self, bitMask):
+        bitMask -= 90000000
+        weekdays=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']
+        for day in ['Friday','Thursday','Wednesday','Tuesday','Monday','Saturday','Sunday']:
+            if bitMask%2==1:
+                self.days.append(day)
+                if day==weekdays[datetime.datetime.today().weekday()]:
+                    self.available="Available"
+            bitMask = bitMask/10
+        return self.days
+    def hours(self, bitMask):
+        bitMask -= 90000
+        for time in ['Dinner','Snacks','Lunch','Breakfast']:
+            if bitMask%2==0:
+                self.times.append(time)
+            bitMask = bitMask/10
+        return self.times
 ################################################################
 class List:
     counter=0
@@ -61,19 +85,25 @@ class List:
                     self.inc(day[count])
             count+=1
 ################################################################
-def getPrice(request, name):
-    conn = MySQLdb.connect (host = "localhost",
-                            user = "root",
-                            passwd = "ostad21",
-                            db = "duclub")
-    cursor = conn.cursor ()
-    cursor.execute ("select FoodPrice from FoodItem where FoodName = '"+name+"'")
-    if cursor.rowcount == 0:
-        html = "<html><body>%s is not available.</body></html>" % name
-    else:
-        row = cursor.fetchone()
-        html = "<html><body>The Price is %s.</body></html>"% row[0]
-    return HttpResponse(html)
+def getDetails(request, name):
+    conn = dbase()
+    cursor = conn.getCursor ()
+    cursor.execute ("select * from FoodItem where FoodName = '"+name+"'")
+    row = cursor.fetchone()
+    newFood = Food(row[1],row[2])
+    days = newFood.weeks(row[3])
+    times = newFood.hours(row[4])
+    return render(request, "food/details.html", context = {'food':newFood})
+###################################################################
+def getEditForm(request, name):
+    conn = dbase()
+    cursor = conn.getCursor ()
+    cursor.execute ("select * from FoodItem where FoodName = '"+name+"'")
+    row = cursor.fetchone()
+    newFood = Food(row[1],row[2])
+    days = newFood.weeks(row[3])
+    times = newFood.hours(row[4])
+    return render(request, "food/editForm.html", context = {'food':newFood})
 ###################################################################
 def getList(request):
     conn = MySQLdb.connect (host = "localhost",

@@ -17,6 +17,9 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.views.generic.base import TemplateView
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.conf.urls.static import static
+from neweb import settings
 from neweb.views import *
 
 urlpatterns = [
@@ -29,4 +32,7 @@ urlpatterns = [
     url(r'^lounge/', include('lounge.urls')),
     url(r'^bill/', include('bill.urls')),
     url(r'^food/', include('food.urls')),
-]
+    
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += staticfiles_urlpatterns()
