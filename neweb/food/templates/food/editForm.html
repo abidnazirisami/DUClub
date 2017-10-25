@@ -19,18 +19,18 @@ a
         <div class="card-content white-text" style="vertical-align: middle">
           <span class="card-title">Edit</span>
 <div class="row">
-    <form class="col s12" method="post" action="/food/details/{{food.name}}">{% csrf_token %}
+    <form class="col s12" method="post" action="/food/success/{{food.name}}">{% csrf_token %}
 <p>
 <div class="row">
     <div class="input-field col s6">
-      <input value="{{food.name}}" id="food_name" type="text" class="validate">
+      <input value="{{food.name}}" name="food_name" id="food_name" type="text" class="validate">
       <label class="active" for="food_name">Name</label>
     </div>
   </div>
   
 <div class="row">
     <div class="input-field col s6">
-      <input value="{{food.price}}" id="food_price" type="text" class="validate">
+      <input value="{{food.price}}" name="food_price" id="food_price" type="text" class="validate">
       <label class="active" for="food_price">Price</label>
     </div>
   </div>
@@ -40,12 +40,12 @@ Available Days:
 {% for day in food.weekDayList %}
 {% if day in food.days %}
     <p>
-      <input type="checkbox" id="{{day}}" checked="checked" />
+      <input type="checkbox" name="day" id="{{day}}" checked="checked" value="{{day}}"/>
       <label for="{{day}}">{{day}}</label>
     </p>
 {% else %}
     <p>
-      <input type="checkbox" id="{{day}}" />
+      <input type="checkbox" name="day" id="{{day}}" value="{{day}}"/>
       <label for="{{day}}">{{day}}</label>
     </p>
 {% endif %}
@@ -57,12 +57,12 @@ Available Hours:
 {% for time in food.dayTimeList %}
 {% if time in food.times %}
     <p>
-      <input type="checkbox" id="{{time}}" checked="checked" />
+      <input type="checkbox" name="time" id="{{time}}" checked="checked" value="{{time}}"/>
       <label for="{{time}}">{{time}}</label>
     </p>
 {% else %}
     <p>
-      <input type="checkbox" id="{{time}}" />
+      <input type="checkbox" name="time" id="{{time}}" value="{{time}}"/>
       <label for="{{time}}">{{time}}</label>
     </p>
 {% endif %}

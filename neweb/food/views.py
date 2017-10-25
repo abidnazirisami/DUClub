@@ -22,20 +22,59 @@ class Food:
     def weeks(self, bitMask):
         bitMask -= 90000000
         weekdays=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']
-        for day in ['Friday','Thursday','Wednesday','Tuesday','Monday','Saturday','Sunday']:
+        for day in ['Friday','Thursday','Wednesday','Tuesday','Monday','Sunday','Saturday']:
             if bitMask%2==1:
                 self.days.append(day)
                 if day==weekdays[datetime.datetime.today().weekday()]:
                     self.available="Available"
             bitMask = bitMask/10
+            self.days.reverse()
         return self.days
     def hours(self, bitMask):
         bitMask -= 90000
         for time in ['Dinner','Snacks','Lunch','Breakfast']:
-            if bitMask%2==0:
+            if bitMask%2==1:
                 self.times.append(time)
             bitMask = bitMask/10
+            self.times.reverse()
         return self.times
+    def getWeekBitMask(self, days):
+        sum = 90000000
+        for day in days:
+            if('Saturday' in day): 
+                sum+=1000000
+            elif('Sunday' in day):
+                sum+=100000
+            elif('Monday' in day): 
+                sum+=10000
+            elif('Tuesday' in day): 
+                sum+=1000
+            elif('Wednesday' in day): 
+                sum+=100
+            elif('Thursday' in day): 
+                sum+=10
+            elif('Friday' in day): 
+                sum+=1
+        
+        return sum
+
+    def getTimeBitMask(self, times):
+        sum = 90000
+        for time in times:
+            if('Breakfast' in time):
+                sum+=1000
+            elif('Lunch' in time):
+                sum+=100
+            elif('Snacks' in time):
+                sum+=10
+            elif('Dinner' in time):
+                sum+=1
+        return sum
+    
+    def setID(self, ID):
+        self.ID = ID
+    def getID(self):
+        return self.ID
 ################################################################
 class List:
     counter=0
@@ -85,52 +124,48 @@ class List:
                     self.inc(day[count])
             count+=1
 ################################################################
-def getDetails(request, name):
+def generateDetails(name):
     conn = dbase()
     cursor = conn.getCursor ()
-    cursor.execute ("select * from FoodItem where FoodName = '"+name+"'")
+    args = [name,]
+    cursor.callproc ("searchFoodWithName", args)
     row = cursor.fetchone()
     newFood = Food(row[1],row[2])
     days = newFood.weeks(row[3])
     times = newFood.hours(row[4])
-    return render(request, "food/details.html", context = {'food':newFood})
+    newFood.setID(row[0])
+    return newFood
+################################################################
+def getDetails(request, name):
+    newFood=generateDetails(name)    
+    return render(request, "food/details.html", context = {'food':newFood, 'message':" "})
 ###################################################################
 def getEditForm(request, name):
-    conn = dbase()
-    cursor = conn.getCursor ()
-    cursor.execute ("select * from FoodItem where FoodName = '"+name+"'")
-    row = cursor.fetchone()
-    newFood = Food(row[1],row[2])
-    days = newFood.weeks(row[3])
-    times = newFood.hours(row[4])
+    newFood = generateDetails(name)
     return render(request, "food/editForm.html", context = {'food':newFood})
 ###################################################################
-def getList(request):
-    conn = MySQLdb.connect (host = "localhost",
-                            user = "root",
-                            passwd = "ostad21",
-                            db = "duclub")
-    cursor = conn.cursor ()
-    cursor.execute ("select FoodName, FoodPrice from FoodItem")
-    if cursor.rowcount == 0:
-        html = "{% extends 'home.html' %}\r\n{% block content%}\r\n<html><body>There is no Food</body></html>" 
-    else:
-        row = cursor.fetchall()
-        html = "<html>"
-	html += ' <table border = "1" > '
-	html += "<tr> <td> <b> Food Name </b></td><td> <b>Food Price </b> </td> </tr>"
-        for i in row:
-            html += "<tr> <td>%s </td>  <td> %s</td> </tr>" % (i[0], i[1]) 
-	html += "</table>"
-        html += "</html>"
-    return HttpResponse(html)
+def getEditResponse(request, name):
+    if request.method == 'POST':
+        newName = request.POST.get('food_name', None)
+        price = request.POST.get('food_price', None)
+        days=[]
+        times=[]
+        days=request.POST.getlist('day')
+        times=request.POST.getlist('time')
+        weekBitmask=Food(newName,price).getWeekBitMask(days)
+        timeBitMask=Food(newName,price).getTimeBitMask(times)
+        newFood = generateDetails(name)
+        conn = dbase()
+        cursor=conn.getCursor()
+        args=[newFood.ID,newName,price,weekBitmask,timeBitMask,]
+        cursor.callproc("updateFood", args)
+        conn.commit()
+        newFood = generateDetails(newName)
+    return render(request, "food/details.html", context = {'food':newFood, 'message':"Updated Successfully"})
 ##########################################################################
 def getWeeklyList(request, day):
-    conn = MySQLdb.connect (host = "localhost",
-                            user = "root",
-                            passwd = "ostad21",
-                            db = "duclub")
-    cursor = conn.cursor ()
+    conn = dbase()
+    cursor = conn.getCursor ()
     name =""
     price=""
     cursor.execute ("select FoodName, FoodPrice, weekBitmask from FoodItem")

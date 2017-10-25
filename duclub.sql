@@ -226,5 +226,20 @@ END //
 delimiter ;
 
 
+--Version 1.3.1:
 
+delimiter //
+CREATE PROCEDURE searchFoodWithName (In name VARCHAR(2555))
+BEGIN
+select * from FoodItem where FoodName = name;
+END //
+delimiter ;
 
+delimiter //
+CREATE PROCEDURE updateFood (IN ID int,IN name VARCHAR(2555), IN price int, IN weekMask int, IN timeMask int)
+BEGIN
+update FoodItem
+set FoodName = name, FoodPrice = price, weekBitmask=weekMask, timeBitmask=timeMask
+where FoodID = ID;
+END //
+delimiter ;

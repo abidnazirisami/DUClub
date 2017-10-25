@@ -7,5 +7,6 @@ from .views import *
 urlpatterns = [
     url(r'^details/(.{1,30})', getDetails),
     url(r'^edit/(.{1,30})', getEditForm),
+    url(r'^success/(.{1,30})', getEditResponse),
     url(r'^(.{0,30})$', getWeeklyList),
 ]
