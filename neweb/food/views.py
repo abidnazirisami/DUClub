@@ -13,15 +13,16 @@ from neweb.views import *
 ################################# F O O D ###############################
 #########################################################################
 class Food:
+    weekDayList = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
     def __init__(self, name, price):
         self.name = name
         self.price = price
         self.days=[]
         self.times=[]
-        self.weekDayList = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
         self.dayTimeList = ['Breakfast','Lunch','Snacks','Dinner']
         self.available="Not Available"
-#########################################################################        
+#########################################################################      
+    
     def getWeekdays(self, bitMask):
         bitMask -= 90000000
         weekdays=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']
@@ -75,14 +76,14 @@ class Food:
             elif('Dinner' in time):
                 sum+=1
         self.timeBitmask=sum
-        return self.weekBitmask
+        return self.timeBitmask
 #########################################################################    
     def setID(self, ID):
         self.ID = ID
 #########################################################################
     def isAvailable(self, target):
         for day in self.days:
-            if day==target:
+            if day==target or day=='All':
                 return 1
         return 0
 #########################################################################
@@ -180,13 +181,20 @@ def getWeeklyList(request, day):
     cursor = conn.getCursor ()
     cursor.execute ("select FoodName, FoodPrice, weekBitmask from FoodItem")
     foodList=[]
-    weekList=List()
-    weekList.calc()
+    weekList={}
+    for days in Food.weekDayList:
+        weekList[days]=0
+    weekList['All']=0
     row = cursor.fetchall()
     for i in row:
         newFood = Food(i[0], i[1])
-        if newFood.isAvailable(day):
+        dayList = newFood.getWeekdays(i[2])
+        weekList['All']+=1
+        for days in dayList:
+            weekList[days]+=1
+        if newFood.isAvailable(day)==1 or day=='All':
             foodList.append(newFood)
+        
     return render(request, "food/food.html", context = {'food':foodList, 'week':weekList}) 
 #########################################################################
 
