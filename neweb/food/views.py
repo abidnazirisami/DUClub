@@ -14,18 +14,18 @@ from neweb.views import *
 #########################################################################
 class Food:
     weekDayList = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
+    dayTimeList = ['Breakfast','Lunch','Snacks','Dinner']
     def __init__(self, name, price):
         self.name = name
         self.price = price
         self.days=[]
         self.times=[]
-        self.dayTimeList = ['Breakfast','Lunch','Snacks','Dinner']
         self.available="Not Available"
 #########################################################################      
     
     def getWeekdays(self, bitMask):
         bitMask -= 90000000
-        weekdays=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']
+        weekdays=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'] # This is for the datetime.datetime.today.weekday[] function
         for day in ['Friday','Thursday','Wednesday','Tuesday','Monday','Sunday','Saturday']:
             if bitMask%2==1:
                 self.days.append(day)
@@ -45,37 +45,25 @@ class Food:
         return self.times
 #########################################################################    
     def getWeekBitMask(self, days):
-        sum = 90000000
+        mask = 90000000
         for day in days:
-            if('Saturday' in day): 
-                sum+=1000000
-            elif('Sunday' in day):
-                sum+=100000
-            elif('Monday' in day): 
-                sum+=10000
-            elif('Tuesday' in day): 
-                sum+=1000
-            elif('Wednesday' in day): 
-                sum+=100
-            elif('Thursday' in day): 
-                sum+=10
-            elif('Friday' in day): 
-                sum+=1
-        self.weekBitmask=sum
+            counter = 0
+            for weekDay in self.weekDayList:
+                if weekDay in day:
+                    mask+=(10**(6-counter))
+                counter+=1
+        self.weekBitmask=mask
         return self.weekBitmask
 #########################################################################
     def getTimeBitMask(self, times):
-        sum = 90000
+        mask = 90000
         for time in times:
-            if('Breakfast' in time):
-                sum+=1000
-            elif('Lunch' in time):
-                sum+=100
-            elif('Snacks' in time):
-                sum+=10
-            elif('Dinner' in time):
-                sum+=1
-        self.timeBitmask=sum
+            counter = 0
+            for dayTime in self.dayTimeList:
+                if dayTime in time:
+                    mask+=(10**(3-counter))
+                counter+=1
+        self.timeBitmask=mask
         return self.timeBitmask
 #########################################################################    
     def setID(self, ID):
@@ -88,53 +76,6 @@ class Food:
         return 0
 #########################################################################
 #########################################################################
-class List:
-    counter=0
-    saturday=0
-    sunday=0
-    monday=0
-    tuesday=0
-    wednesday=0
-    thursday=0
-    friday=0
-    allday=0
-    def inc(self, day):
-        if day=='Saturday':
-            self.saturday+=1
-        elif day=='Sunday':
-            self.sunday+=1
-        elif day=='Monday':
-            self.monday+=1
-        elif day=='Tuesday':
-            self.tuesday+=1
-        elif day=='Wednesday':
-            self.wednesday+=1
-        elif day=='Thursday':
-            self.thursday+=1
-        elif day=='Friday':
-            self.friday+=1
-        else:
-            self.allday+=1
-    def calc(self):
-        conn=dbase()
-        cursor=conn.getCursor()
-        cursor.execute("select FoodName, FoodPrice, weekBitmask from FoodItem")
-        row=cursor.fetchall()
-        day=['Saturday',
-            'Sunday',
-            'Monday',
-            'Tuesday',
-            'Wednesday',
-            'Thursday',
-            'Friday']
-        count=0
-        for div in [1000000,100000,10000,1000,100,10,1]:
-            for i in row:
-                if(count==0):
-                    self.inc('all')
-                if (((i[2]-90000000)/div)>=(1000000/div) and ((i[2]-90000000)/div)%2==1 ) or div==2:
-                    self.inc(day[count])
-            count+=1
 ################################################################
 ################################################################
 def generateDetails(name):
@@ -195,7 +136,7 @@ def getWeeklyList(request, day):
         if newFood.isAvailable(day)==1 or day=='All':
             foodList.append(newFood)
         
-    return render(request, "food/food.html", context = {'food':foodList, 'week':weekList}) 
+    return render(request, "food/food.html", context = {'food':foodList, 'week':weekList, 'currentDay':day}) 
 #########################################################################
 
 

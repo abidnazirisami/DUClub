@@ -21,8 +21,8 @@ class Context:
     def __init__(self, strategy):
         self._strategy = strategy
 
-    def context_interface(self, request, search_id):
-        return self._strategy.searchMem(request, search_id)
+    def context_interface(self, search_id):
+        return self._strategy.searchMem(search_id)
 
 ###############################################################
 @six.add_metaclass(abc.ABCMeta)
@@ -30,14 +30,14 @@ class SearchClass():
 
 
     @abc.abstractmethod
-    def searchMem(self, request, search_id):
+    def searchMem(self, search_id):
         pass
 ###############################################################
 
 class SearchWithName(SearchClass):
 
 
-    def searchMem(self, request, search_id):
+    def searchMem(self, search_id):
         conn = dbase()
         cursor = conn.getCursor()
         args = [search_id,]
@@ -47,7 +47,7 @@ class SearchWithName(SearchClass):
 ###############################################################
 class SearchWithID(SearchClass):
 
-     def searchMem(self, request, search_id):
+     def searchMem(self,search_id):
         conn = dbase()
         cursor = conn.getCursor()
         args = [search_id,]
@@ -57,7 +57,7 @@ class SearchWithID(SearchClass):
 ###############################################################
 class SearchAll(SearchClass):
 
-     def searchMem(self, request, search_id):
+     def searchMem(self, search_id):
         conn = dbase()
         cursor = conn.getCursor()
         s = cursor.callproc("searchMemAll")
@@ -65,30 +65,43 @@ class SearchAll(SearchClass):
 
 ################################################################
 class Member:
-    counter=0
     def __init__(self, id, name):
         self.name = name
         self.id = id
-        Member.counter += 1
+    def addDept(self, dept):
+        self.department=dept
 ########################################################################################################
-def search(request):
+def getMembers(search_id):
+    if not search_id:
+        context = Context(SearchAll())
+    elif search_id[0] <= '9' and search_id[0] >= '0':
+        context = Context(SearchWithID())
+    else:
+        context = Context(SearchWithName())
     memberList = []
+    row = context.context_interface(search_id)
+    for i in row:
+        memberList.append(Member(i[0],i[1]))
+    return memberList
+################################################################################################
+def search(request):
+    
     if request.method == 'POST':
         search_id = request.POST.get('textfield', None)
-        if not search_id:
-            context = Context(SearchAll())
-        elif search_id[0] <= '9' and search_id[0] >= '0':
-            context = Context(SearchWithID())
-        else:
-            context = Context(SearchWithName())
-        
-        row = context.context_interface(request, search_id)
-        for i in row:
-            memberList.append(Member(i[0],i[1]))
+        memberList = getMembers(search_id)
         return render(request, "members/searchResults.html",context={'member':memberList})    
 ################################################################################################        
 def memberHome(request):
-    return render(request, "members/members.html")
+    conn = dbase()
+    cursor = conn.getCursor ()
+    cursor.execute ("select MemberID, MemberName, department from Accounts")
+    memberList=[]
+    row = cursor.fetchall()
+    for i in row:
+        newMember = Member(i[0], i[1])
+        newMember.addDept(i[2])
+        memberList.append(newMember)
+    return render(request, "members/members.html", context={'member': memberList})
 ################################################################
 ###############################################################
 ###############################################################
@@ -129,22 +142,15 @@ def addMem(request):
 def deleteMemberPage(request):
     return render(request, "members/deleteMember.html", context={'warning':""})
 ####################################################################
-def updateMemberPage(request):
-    return render(request, "members/updateForm.html", context={'warning':""})
+def updateMemberPage(request, memberid):
+    return render(request, "members/updateForm.html", context={'warning':"", 'id':memberid})
 ####################################################################
-def deleteMember(request):
-    memberid = request.POST.get('memberid', None)
-    if not memberid:
-        return render(request, "members/deleteMember.html", context={'warning': "Please enter the id of the member"})
- 
+def deleteMember(request, memberid): 
     conn = dbase()
     cursor = conn.getCursor()
     cursor.execute ("select * from Accounts where memberID = "+memberid)
-    if cursor.rowcount == 0:
-        return render(request, "members/deleteMember.html", context={'warning': "Please enter a valid ID"})
-    else:
-        row = cursor.fetchone()
-        return render(request, "members/confirmDelete.html", context = {'name': row[1], 'memberid':row[0],'designation':row[5],'dept':row[6]})
+    row = cursor.fetchone()
+    return render(request, "members/confirmDelete.html", context = {'name': row[1], 'memberid':row[0],'designation':row[5],'dept':row[6]})
 ##########################################################
 def deleteMem(request):
     memberid = request.POST.get('memberid', None)
@@ -158,10 +164,7 @@ def deleteMem(request):
     cursor.close()
     return render(request, "members/deleteSuccess.html")
 ###################################################################
-def updateMember(request):
-    memberid = request.POST.get('memberid', None)
-    if not memberid:
-        return render(request, "members/updateForm.html", context={'warning': "Please enter the id of the member"})
+def updateMember(request, memberid):
     conn = dbase()
     cursor = conn.getCursor()
     cursor.execute ("select * from Accounts where memberID = "+memberid)

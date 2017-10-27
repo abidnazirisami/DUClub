@@ -3,45 +3,23 @@
 <!--{% block title %}Food Items{% endblock %} -->
 
 {% block content %}
-<style>
-    h2
-    {
-    color: white;
-    }
-    h3
-    {
-    color: white; 
-    }
-    button1 {
-    background-color: transparent;
-    background-repeat:no-repeat;
-    border: transparent;
-    cursor: pointer;
-    overflow: hidden;
-    outline: transparent;
-    color: white; 
-    text-decoration: none;
-    padding: 4%;
-    font-size: 20px;
-    
-    }
-    
-    
-    
-    
-    
-    
-    
-</style>
+
 <head>
   
-    
+  <style>
+    span
+    {
+        color: white;
+    }
+  </style>
 </head>
 <body > 
 
 <br>
     
-    <div align = "center">
+    <div class="row">
+        <div class="input-field col s4 offset-s4">
+    
         <ul id = "dropdown" class = "dropdown-content" style="background-color: white;">
             
             <li ><a href="/food/All">All<span class = "badge">{{week.All}}</span></a></li>
@@ -59,7 +37,7 @@
             <i class="material-icons right">arrow_drop_down</i></a>	
         
     </div>
-    
+    </div>
     <br>
     </body>
     {% endblock %}

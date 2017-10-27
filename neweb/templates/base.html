@@ -19,8 +19,8 @@
         font-size: 24px;
     }
     body {
-	background-image: url(https://i.ytimg.com/vi/fNcORgbMoYA/maxresdefault.jpg);
-	background-color: #7e7d8c;
+/* 	background-image: url(https://i.ytimg.com/vi/fNcORgbMoYA/maxresdefault.jpg); */
+	background-color: white;
         background-size: 1600px 900px;
         background-repeat: no repeat;
         margin: 0px;
@@ -67,9 +67,9 @@
 <body>
   <center>  
   <header>
-    <h2 align="left" style="margin: 25px 10px 5px 25px;font: 1em consolas;font-size: 28px;"><b>DU Club</b></h2>
+    <h2 align="left" style="margin: 25px 10px 5px 25px;font: 1em consolas;font-size: 28px;"><b style="color:black;">DU Club</b></h2>
     {% if user.is_authenticated %}
-<div align ="left" style="margin: 5px 10px 20px 25px">
+<div align ="left" style="margin: 5px 10px 20px 25px; color: black;">
       Welcome to the club, {{ user.username }}! <br> <br>
       <a href="{% url 'logout' %}"><button class = "btncls">Logout</button></a>
 </div>

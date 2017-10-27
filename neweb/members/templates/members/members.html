@@ -33,7 +33,10 @@ small
 color:white;
 
 }
-
+a
+{
+color: white;
+}
 /*https://www.w3schools.com/css/tryit.asp?filename=trycss_form_search_anim*/
 
 input[type=text] {
@@ -69,16 +72,39 @@ input[type=text]:focus {
  <a href="/members/memberForm"><button class = "btncls">Add Member</button></a>
 </div>
 
-</div>
-<div style="display: inline-block; position: absolute; left: 75px; top:340px;";>
- <a href="/members/deleteMember"><button class = "btncls">Delete Member</button></a>
-</div>
 
 </div>
 <div style="display: inline-block; position: absolute; left: 75px; top:390px;";>
  <a href="/members/updateMember"><button class = "btncls">Update Member</button></a>
 </div>
 </div>
+<br>
+<div class="center-align">
+<div class="container">
+  <div class="row valign-wrapper">
+    <div class="col s8 offset-s2 valign">
+      <div class="card blue-grey darken-1">
+        <div class="card-content white-text">
+        {% if currentDay in "All" %}
+          <span class="card-title">List of Foods</span>
+        {% else %}
+          <span class="card-title">{{currentDay}}</span>
+        {% endif %}
+<table class="highlight"> 
 
+<thread><tr> <th>ID</th><th>Name</th><th>Edit</th><th>Delete</th></tr></thread>
+<tbody>
+{% for members in member %}
+    <tr> <td><a>{{members.id}}</a></td><td><a  id="txt1">{{members.name}}<a></th><th><a href="/members/updateMember/{{members.id}}"><i class="small material-icons" style="color: #81c784">edit</i> </a></th><th><a href="/members/delete/{{members.id}}"><i class="small material-icons" style="color: #e57373">delete</i></a> </th></tr>
+  {% endfor %}
+  </tbody>
+  
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 {% endblock %}
 <hr>

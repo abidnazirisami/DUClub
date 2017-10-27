@@ -5,175 +5,135 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-        <style>
-            
-            form {
-            margin: 0 auto;
-            width: 500px;
-            padding: 1em;
-            border: 1px solid #FFFFFF;
-            border-radius: 1em;
-            }
-            
-            div+div {
-            margin-top: 1em;
-            }
-            
-            label span {
-            font: 1em consolas;
-            
-            text-align: left;
-            color: #FFFFFF;
-            }
-            
-            input, textarea {
-            font: 1em consolas;
-            
-            }
-            
-            input[type=checkbox], input[type=radio] {
-            width: auto;
-            border: none;
-            }
-            
-            input:focus, textarea:focus {
-            border-color: #000;
-            }
-            
-            
-            select {
-            font: 1em consolas;
-            display: inline-block;
-            position: relative;
-            width: 250px;
-            text-align: left;
-            }
-            
-            label {
-            position: relative;
-            }
-            
-            label em {
-            position: relative;
-            }
-            
-            
-            
-            
-        </style>
-    </head>
-    <body >
-    <br>
-        <div class="row">
-            <form method="post" action="/members/addMember/" class="col s12"> {% csrf_token %}
-                
-                <div style="color:red">{{ warning }} <br> </div>
-                    
-                    <small style="color:white"> <i> Required fields are marked with <sup>*</sup> </i> </small>
-                    <section>
-                        <h2>Contact information</h2>
-                        <div class="row">
-                            <div class="input-field col s6">
-                                
-                                <label for="name">
-                                    <span>Name<sup>*</sup>: </span>
-                                    
-                                </label>
-                                <input type="text" id="name" name="username" class="validate">
-                                    
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="input-field col s6">
-                                    <label for="mail">
-                                        <span>E-mail<sup>*</sup>: </span>
-                                    </label>
-                                    <input type="email" id="mail" name="usermail">
-                                        <br>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="input-field col s6">
-                                            <div>
-                                                <label for="num">
-                                                    <span>Contact no.<sup>*</sup>: </span>
-                                                </label>
-                                                <input type="text" id="cellno" name="contactno">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </section>
-                                    <section>
-                                        <h2>Personal information</h2>
-                                        <div class="row">
-                                            <div class="input-field col s6">
-                                                <label for="present">
-                                                    <span>Present Address: </span>
-                                                </label>
-                                                <input type="text" id="prad" name="userprad">
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="input-field col s6">
-                                                    <label for="permanent">
-                                                        <span>Permanent Address: </span>
-                                                    </label>
-                                                    <input type="text" id="pmad" name="userpmad">
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="input-field col s6">
-                                                        <label for="dept">
-                                                            <span>Department<sup>*</sup>: </span>
-                                                        </label>
-                                                        <input type="text" id="dept" name="userdept">
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div>
-                                                            <label for="post">
-                                                                <span>Designation<sup>*</sup>:</span>
-                                                            </label>
-                                                            <select id="post" name="userdesignation">
-                                                                <option value="Professor">Professor</option>
-                                                                <option value="Associate Professor">Associate Professor</option>
-                                                                <option value="Assistant Professor">Assistant Professor</option>
-                                                                <option value="Lecturer">Lecturer</option>
-                                                                <option value="Other">Other</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div>
-                                                            <label for="stat">
-                                                                <span>Status:</span>
-                                                            </label>
-                                                            <select id="stat" name="userstat">
-                                                                <option value="Active">Active</option>
-                                                                <option value="Inactive">Inactive</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div>
-                                                            <label for="type">
-                                                                <span>Type<sup>*</sup>:</span>
-                                                            </label>
-                                                            <select id="type" name="usertype">
-                                                                <option value="General">General</option>
-                                                                <option value="Privileged">Privileged</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </section>
-                                                <button class="btncls" type="submit" >Add Member</button>
-                                                
-                                            </form>
-                                        </div>
-                                        <hr>
-                                        </body>
-                                    </html>
-                                    
-                                    {% endblock %}
-                                    
+<meta charset="utf-8">
+<style>
+
+           label
+           {
+               color : #037CC1;
+               }
+
+           </style>
+           <script>
+           $(document).ready(function() {
+               $('select').material_select();
+               });
+           </script>
+           </head>
+           <body >
+           <br>
+           <div class="row">
+           <form method="post" action="/members/addMember/" class="col s12"> {% csrf_token %}
+           
+           <div style="color:red">{{ warning }} <br> </div>
+           
+           <small style="color:white"> <i> Required fields are marked with <sup>*</sup> </i> </small>
+           <section>
+           <h2>Contact information</h2>
+           <div class="row">
+           <div class="input-field col s6 offset-s3">
+           
+           <label for="name">
+           <span>Name<sup>*</sup>: </span>
+           
+           </label>
+           <input type="text" id="name" name="username" class="validate">
+           
+           </div>
+           </div>
+           <div class="row">
+           <div class="input-field col s6 offset-s3">
+           <label for="mail" data-error="Please enter a valid email address" data-success="right">
+           <span>E-mail<sup>*</sup>: </span>
+           </label>
+           <input type="email" id="mail" name="usermail" class="validate">
+           
+           <br>
+           </div>
+           </div>
+           <div class="row">
+           <div class="input-field col s6 offset-s3">
+           <div>
+           <label for="num">
+           <span>Contact no.<sup>*</sup>: </span>
+           </label>
+           <input type="text" id="cellno" name="contactno" class="validate">
+           </div>
+           </div>
+           </div>
+           </section>
+           <section>
+           <h2>Personal information</h2>
+           <div class="row">
+           <div class="input-field col s6 offset-s3">
+           <label for="present">
+           <span>Present Address: </span>
+           </label>
+           <input type="text" id="prad" name="userprad" class="validate">
+           </div>
+           </div>
+           <div class="row">
+           <div class="input-field col s6 offset-s3">
+           <label for="permanent">
+           <span>Permanent Address: </span>
+           </label>
+           <input type="text" id="pmad" name="userpmad" class="validate">
+           </div>
+           </div>
+           <div class="row">
+           <div class="input-field col s6 offset-s3">
+           <label for="dept">
+           <span>Department<sup>*</sup>: </span>
+           </label>
+           <input type="text" id="dept" name="userdept" class="validate">
+           </div>
+           </div>
+           <div class="row">
+           <div class="input-field col s6 offset-s3">
+           
+           <select id="post" name="userdesignation">
+           <option value="Professor">Professor</option>
+           <option value="Associate Professor">Associate Professor</option>
+           <option value="Assistant Professor">Assistant Professor</option>
+           <option value="Lecturer">Lecturer</option>
+           <option value="Other">Other</option>
+           </select>
+           <label for="post">
+           <span>Designation<sup>*</sup>:</span>
+           </label>
+           </div>
+           </div>
+           <div class="row">
+           <div class="input-field col s6 offset-s3">
+           <select id="stat" name="userstat">
+           <option value="Active">Active</option>
+           <option value="Inactive">Inactive</option>
+           </select>
+           <label for="stat">
+           <span>Status:</span>
+           </label>
+           
+           </div>
+           </div>
+           <div class="row">
+           <div class="input-field col s6 offset-s3">
+           <select id="type" name="usertype">
+           <option value="General">General</option>
+           <option value="Privileged">Privileged</option>
+           </select>
+           <label for="type">
+           <span>Type<sup>*</sup>:</span>
+           </label>
+           
+           </div>
+           </div>
+           </section>
+           <button class="btncls" type="submit" >Add Member</button>
+           
+           </form>
+           </div>
+           </body>
+           </html>
+           
+           {% endblock %}
+           
