@@ -7,6 +7,7 @@ from django.views.generic.base import TemplateView
 from django.template import RequestContext
 from members.views import *
 from lounge.views import *
+from food.views import *
 import MySQLdb
 import abc, six
 import datetime
@@ -25,7 +26,8 @@ def billForm(request):
     for lounge in loungeList:
         loungeJSON[lounge.name] = 0
     today={'year':datetime.datetime.now(tzlocal()).year, 'month':datetime.datetime.now(tzlocal()).month, 'day':datetime.datetime.now(tzlocal()).day}
-    return render(request, "bill/billForm.html", context ={'warning':"",'members':membersJSON, 'today': today, 'lounges': loungeJSON})
+    foodDict=getFoodList('All')
+    return render(request, "bill/billForm.html", context ={'warning':"",'members':membersJSON, 'today': today, 'lounges': loungeJSON, 'foods': foodDict['food']})
 
 ###############################################################################################
 

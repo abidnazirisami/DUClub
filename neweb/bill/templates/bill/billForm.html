@@ -54,14 +54,26 @@ $(document).ready(function() {
  </script>
  {% load static %}
 <script src="{% static 'js/addInput.js' %}" language="Javascript" type="text/javascript"></script>
-<form method="POST">
+    
+    <div class="input-field col s6 offset-s3">
      <div id="dynamicFoodInput">
-     <div class="input-field col s10 offset-s1">
-          <input type="text" name="foodItem" id="item1"> <label for="item1">Food Item - 1</label>
+            
      </div>
      </div>
-     <input type="button" class="btn waves-effect waves-light" value="Add another item" onClick="addInput('dynamicFoodInput');">
-</form>
+     
+     <div class="col s10 offset-s1">
+     <div class="left-align ">
+     <br>
+     <br>
+     <span style="color: #bdbdbd;" >Add an item:</span>
+     </div>
+     <select id="fooditem" name="fooditem" onchange="addInput('dynamicFoodInput');">
+     {% for food in foods %}
+     <option value="{{food.name}}">{{food.name}}</option>
+     {% endfor %}
+     </select>
+     </div>
+
      
 <div class="row">
   <div class="input-field col s6 offset-s3">

@@ -117,7 +117,7 @@ def getEditResponse(request, name):
         newFood = generateDetails(newName)
     return render(request, "food/details.html", context = {'food':newFood, 'message':"Updated Successfully"})
 ##########################################################################
-def getWeeklyList(request, day):
+def getFoodList(day):
     conn = dbase()
     cursor = conn.getCursor ()
     cursor.execute ("select FoodName, FoodPrice, weekBitmask from FoodItem")
@@ -135,8 +135,11 @@ def getWeeklyList(request, day):
             weekList[days]+=1
         if newFood.isAvailable(day)==1 or day=='All':
             foodList.append(newFood)
-        
-    return render(request, "food/food.html", context = {'food':foodList, 'week':weekList, 'currentDay':day}) 
+    return {'food':foodList, 'week':weekList, 'currentDay':day}
+##########################################################################
+def getWeeklyList(request, day):
+    foodDict=getFoodList(day)
+    return render(request, "food/food.html", context = foodDict) 
 #########################################################################
 
 def getAddForm(request):
