@@ -253,3 +253,14 @@ INSERT INTO FoodItem(FoodName, FoodPrice, weekBitmask, timeBitmask)
 VALUES(name,price,weekMask,timeMask);
 END //
 delimiter ;
+
+--Version 1.4.0
+
+
+delimiter //
+CREATE PROCEDURE deleteFood (IN name VARCHAR(2555))
+BEGIN
+delete from FoodItem
+where FoodName = name;
+END //
+delimiter ;

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-<!--{% block title %}Details{% endblock %} -->
+{% block title %}Details{% endblock %}
 {% block content %}
 
 <style>
@@ -25,6 +25,7 @@ a
       <div class="card blue-grey darken-1">
         <div class="card-content white-text" style="vertical-align: middle">
         {{message}}
+        <br>
         {% if "Not Available" in lounge.available %}
         <span class="new badge red" data-badge-caption=" ">{{lounge.available}}</span>
         {% else %}
@@ -33,28 +34,8 @@ a
           <span class="card-title">{{lounge.name}}</span>
 
 <p>
-<!--
-Price: {{food.price}} TK
-
-<br>
-<br><span id="txt1">Available Days: </span> 
-<br>
-
-{% for days in food.days %}
-    <i class="tiny material-icons" >subdirectory_arrow_right</i> {{days}}
-    <br>
-{% endfor %}
-
-<br><span id="txt1">Available Hours: </span>
-<br>
-
-{% for times in food.times %}
-    <i class="tiny material-icons" >subdirectory_arrow_right</i> {{times}}
-    <br>
-{% endfor %}
--->
 <div class="fixed-action-btn horizontal click-to-toggle">
-    <a href="/lounge/updateLounge/{{lounge.id}}" class="btn-floating btn-large  waves-effect waves-light red">
+    <a href="/lounge/update/{{lounge.id}}/" class="btn-floating btn-large  waves-effect waves-light red">
       <i class="large material-icons">mode_edit</i>
     </a>
   </div>

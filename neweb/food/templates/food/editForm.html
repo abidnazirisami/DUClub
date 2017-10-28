@@ -22,19 +22,21 @@ a
     <form class="col s12" method="post" action="/food/success/{{food.name}}">{% csrf_token %}
 <p>
 <div class="row">
-    <div class="input-field col s6">
-      <input value="{{food.name}}" name="food_name" id="food_name" type="text" class="validate">
-      <label class="active" for="food_name">Name</label>
+    <div class="input-field col s10 offset-s1">
+      <input value="{{food.name}}" name="food_name" id="food_name" type="text" class="validate" required="" aria-required="true">
+      <label class="active" for="food_name" data-error="Please enter the name of the item" data-success="">Name</label>
     </div>
   </div>
   
 <div class="row">
-    <div class="input-field col s6">
-      <input value="{{food.price}}" name="food_price" id="food_price" type="text" class="validate">
-      <label class="active" for="food_price">Price</label>
+    <div class="input-field col s10 offset-s1">
+      <input value="{{food.price}}" name="food_price" id="food_price" type="number" class="validate" required="" aria-required="true">
+      <label class="active" for="food_price" data-error="Please enter a valid price for the item" data-success="">Price</label>
     </div>
   </div>
 <div align="left">
+<section>
+<div class="col s10 offset-s1">
 Available Days:  
 <br>
 {% for day in food.weekDayList %}
@@ -50,7 +52,11 @@ Available Days:
     </p>
 {% endif %}
 {% endfor %}
+</div>
+</section>
 <br>
+<section>
+<div class="col s10 offset-s1">
 Available Hours:
 <br>
 
@@ -67,10 +73,16 @@ Available Hours:
     </p>
 {% endif %}
 {% endfor %}
-</p><br>
+</p>
+</div>
+</section>
+
+<br>
+<div class="center-align">
 <button class="btn waves-effect waves-light" type="submit" name="action">Submit
     <i class="material-icons right">send</i>
   </button>
+</div>
 </div>
 </div>
 </div>

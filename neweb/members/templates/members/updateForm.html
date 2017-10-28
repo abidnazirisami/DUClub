@@ -18,18 +18,13 @@
 <div class="row">
     
     <form method="post" action="/members/update/{{member.id}}/"> {% csrf_token %}
+    
+    <small style="color:white"> <i> Leave out the fields which do not require updating  </i> </small>
     <div style="color:red">{{ warning }} <br> </div>
-    <small style="color:white"> <i> Leave out the fields which do not require updating <sup>*</sup> </i> </small>
     <section>
     <div class="col s10 offset-s1">
     <h2>Contact information</h2>
-    <!--<p>
-      <label for="id">
-        <span>Member ID<sup>*</sup>: </span>
-            
-      </label>
-      <input type="text" id="memberid" name="memberid" value="{{member.id}}">
-    </p>-->
+  
     <p>
       <label for="name">
         <span>Name: </span>
@@ -74,7 +69,7 @@
     </p>
     <p>
       <label for="post">
-        <span>Designation<sup>*</sup>:</span>
+        <span>Designation:</span>
       </label>
       <select id="post" name="userdesignation">
         <option value="Professor">Professor</option>
@@ -86,7 +81,7 @@
     </p>
     <p>
       <label for="stat">
-        <span>Status:<sup>*</sup></span>
+        <span>Status:</span>
       </label>
       <select id="stat" name="userstat">
         <option value="Active">Active</option>
@@ -95,7 +90,7 @@
     </p>
     <p>
       <label for="type">
-        <span>Type:<sup>*</sup></span>
+        <span>Type:</span>
       </label>
       <select id="type" name="usertype">
         <option value="General">General</option>

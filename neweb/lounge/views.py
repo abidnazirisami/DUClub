@@ -15,6 +15,7 @@ class Lounge:
     def __init__(self, id, name):
         self.name = name
         self.id = id
+        self.available="Available"
 ###############################################################################
 def loungeHome(request):
     conn = dbase()
@@ -33,8 +34,9 @@ def addLoungePage(request):
 def deleteLoungePage(request,name):
     return render(request, "lounge/deleteLounge.html", context={'warning':"",'id': name})
 ################################################################################
-def updateLoungePage(request,name):
-    return render(request, "lounge/updatelounge.html", context={'warning':"", 'id' : name})
+def updateLoungePage(request,loungeid):
+    newLounge=generateDetails(loungeid)
+    return render(request, "lounge/updatelounge.html", context={'warning':"", 'lounge' : newLounge})
 ###############################################################
 ################### Strategy Pattern ##########################
 ###############################################################
@@ -102,13 +104,13 @@ def search(request):
         row = context.context_interface(request, search_id)
         for i in row:
             loungeList.append(Lounge(i[0],i[1]))
-        return render(request, "lounge/LoungeResult.html",context={'lounge':loungeList})    
+        return render(request, "lounge/loungeHome.html",context={'lounge':loungeList})    
 ##################################################################################################################
 ################################################################
 ###############################################################
 ###############################################################
 def addLounge(request):
-    name = request.POST.get('username', None)
+    name = request.POST.get('loungename', None)
     if not name:
         return render(request, "lounge/loungeForm.html", context={'warning': "Please enter the name of the lounge"})
     conn = dbase()
@@ -120,28 +122,14 @@ def addLounge(request):
     
     return render(request, "lounge/loungeSuccess.html", context = {'name': name})
 ###############################################################
-def addLng(request):
-    return render(request, "lounge/loungeForm.html", context={'warning': ""})
-
-####################################################################
 ###############################################################
 
-def deleteLounge(request):
-    loungeid = request.POST.get('loungeid', None)
-    if not Loungeid:
-        return render(request, "lounge/deleteLounge.html", context={'warning': "Please enter the id of the Lounge"})
- 
-    conn = dbase()
-    cursor = conn.getCursor()
-    cursor.execute ("select * from Lounge where LoungeID = "+Loungeid)
-    if cursor.rowcount == 0:
-        return render(request, "lounge/deleteLounge.html", context={'warning': "Please enter a valid ID"})
-    else:
-        row = cursor.fetchone()
-        return render(request, "lounge/confirmLounge.html", context = {'name': row[1], 'loungeid':row[0]})
+def deleteLounge(request, loungeid):
+    newLounge = generateDetails(loungeid)
+    return render(request, "lounge/confirmLounge.html", context = {'lounge': newLounge})
 ##########################################################
-def deleteLng(request,loungeid):
-
+def deleteLng(request):
+    loungeid=request.POST.get('loungeid', None)
     conn = dbase()
     cursor = conn.getCursor()
     args = [loungeid,]
@@ -153,23 +141,21 @@ def deleteLng(request,loungeid):
 #################################################################
 def updateLounge(request):
     loungeid = request.POST.get('loungeid', None)
-    if not loungeid:
-        return render(request, "lounge/updatelounge.html", context={'warning': "Please enter the id of the lounge"})
     conn = dbase()
     cursor = conn.getCursor()
     cursor.execute ("select * from Lounge where loungeID = "+loungeid)
     if cursor.rowcount == 0:
         return render(request, "lounge/updatelounge.html", context={'warning': "Please enter a valid ID"})
     row = cursor.fetchone()
-    name = request.POST.get('name', None)
+    name = request.POST.get('loungename', None)
     if not name:
         name = row[1]
-    args = [loungeid,name]
+    args = [loungeid,name,]
     s = cursor.callproc("updateLounge", args)
     conn.commit()    
     cursor.close()
-    
-    return render(request, "lounge/LoungeSuccess.html", context = {'name': name})
+    newLounge=generateDetails(loungeid)
+    return render(request, "lounge/details.html", context = {'lounge': newLounge, 'message': "Updated Successfully"})
 ######################################################################
 def generateDetails(loungeid):
     conn = dbase()
@@ -182,3 +168,14 @@ def generateDetails(loungeid):
 def getDetails(request, name):
     newLounge=generateDetails(name)    
     return render(request, "lounge/details.html", context = {'lounge':newLounge, 'message':" "})
+######################################################################
+def getLoungeList():
+    conn = dbase()
+    cursor = conn.getCursor ()
+    cursor.execute ("select * from Lounge")
+    row = cursor.fetchall()
+    loungeList=[]
+    for lounge in row:
+        loungeList.append(Lounge(lounge[0], lounge[1]))
+    return loungeList
+        

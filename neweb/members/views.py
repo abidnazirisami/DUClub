@@ -166,8 +166,6 @@ def deleteMember(request, memberid):
 ##########################################################
 def deleteMem(request):
     memberid = request.POST.get('memberid', None)
-    if not memberid:
-        return render(request, "members/deleteMember.html", context={'warning': "Please enter the id of the member"})
     conn = dbase()
     cursor = conn.getCursor()
     args = [memberid,]

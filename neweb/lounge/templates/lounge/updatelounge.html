@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-<!--{% block title %}Update Member{% endblock %} -->
+{% block title %}Update Lounge{% endblock %}
 
 {% block content %}
 
@@ -11,36 +11,32 @@
   <body>
   <div class="container">
   <div class="row valign-wrapper">
-    <div class="col s6 offset-s3 valign">
+    <div class="col s8 offset-s2 valign">
       <div class="card blue-grey darken-1">
         <div class="card-content white-text" style="vertical-align: middle">
-          <span class="card-title">Edit Member</span>
+          <span class="card-title">Edit Lounge</span>
 <div class="row">
-    <br>
-    <form method="post" action="/lounge/updateLounge/"> {% csrf_token %}
+    
+    <form method="post" action="/lounge/update/success/"> {% csrf_token %}
+    
+    <small style="color:white"> <i> Leave out the fields which do not require updating  </i> </small>
     <div style="color:red">{{ warning }} <br> </div>
-    <small style="color:white"> <i> Leave out the fields which do not require updating <sup>*</sup> </i> </small>
     <section>
-    <h2>Lounge information</h2>
-    <p>
-      <label for="id">
-        <span>Lounge ID<sup>*</sup>: </span>
-            
-      </label>
-      <input type="text" id="loungeid" name="loungeid" value="{{id}}">
-    </p>
-    <p>
-      <label for="name">
+    <div class="input-field col s10 offset-s1">
+    
+    
+      <label for="name" data-error="Name cannot be empty'" data-success="">
         <span>Name: </span>
             
       </label>
-      <input type="text" id="name" name="name">
-    </p>
+      <input type="text" id="name" name="loungename" value="{{ lounge.name }}" type="text" class="validate" required="" aria-required="true">
+    </div>
 </section>
-<button class="btncls" type="submit" >Update Lounge</button>
+<br>
+<input type="hidden" id="loungeid" name="loungeid" value = "{{lounge.id}}"><button class="waves-effect waves-light btn" type="submit" >Update Lounge</button>
 
     </form>
-    <hr>
+    
     </div>
     </div>
     </div>
@@ -48,6 +44,5 @@
     </div>
     </div>
   </body>
-</html>
 
 {% endblock %}

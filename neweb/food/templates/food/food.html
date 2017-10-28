@@ -34,7 +34,7 @@ table.highlight tbody tr:hover {
 <thread><tr> <th>Name</th><th>Price</th><th>Edit</th><th>Delete</th></tr></thread>
 <tbody>
 {% for foods in food %}
-    <tr> <td><a id="txt1" href="/food/details/{{foods.name}}">{{foods.name}}</a></td><td>{{foods.price}}</th><th><a href="/food/edit/{{foods.name}}"><i class="small material-icons" style="color: #81c784">edit</i> </a></th><th><a href="/food/"><i class="small material-icons" style="color: #e57373">delete</i></a> </th></tr>
+    <tr> <td><a id="txt1" href="/food/details/{{foods.name}}">{{foods.name}}</a></td><td>{{foods.price}}</th><th><a href="/food/edit/{{foods.name}}"><i class="small material-icons" style="color: #81c784">edit</i> </a></th><th><a href="/food/delete/{{foods.name}}/"><i class="small material-icons" style="color: #e57373">delete</i></a> </th></tr>
   {% endfor %}
   </tbody>
   

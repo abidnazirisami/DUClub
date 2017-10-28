@@ -6,6 +6,7 @@ from django.shortcuts import render_to_response
 from django.views.generic.base import TemplateView
 from django.template import RequestContext
 from members.views import *
+from lounge.views import *
 import MySQLdb
 import abc, six
 import datetime
@@ -19,8 +20,12 @@ def billForm(request):
     membersJSON = {}
     for member in memberList:
         membersJSON[member.name]=0
+    loungeList = getLoungeList()
+    loungeJSON = {}
+    for lounge in loungeList:
+        loungeJSON[lounge.name] = 0
     today={'year':datetime.datetime.now(tzlocal()).year, 'month':datetime.datetime.now(tzlocal()).month, 'day':datetime.datetime.now(tzlocal()).day}
-    return render(request, "bill/billForm.html", context ={'warning':"",'members':membersJSON, 'today': today})
+    return render(request, "bill/billForm.html", context ={'warning':"",'members':membersJSON, 'today': today, 'lounges': loungeJSON})
 
 ###############################################################################################
 

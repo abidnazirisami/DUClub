@@ -10,5 +10,7 @@ urlpatterns = [
     url(r'^success/(.{1,30})', getEditResponse),
     url(r'^add/$', getAddForm),
     url(r'^getAddResponse/$',getAddResponse),
+    url(r'^delete/(.{1,30})/$', deletePrompt),
+    url(r'^success/', deleteFood),
     url(r'^(.{0,30})$', getWeeklyList),
 ]

@@ -18,32 +18,51 @@
   </div>
 </div>
 
-
-
 <div class="row">    
-<div class="input-field col s8">
+<div class="input-field col s10 offset-s1">
           <input type="text" id="autocomplete-input" class="autocomplete" name="member_name" autocomplete="off">
           <label for="autocomplete-input">Member Name</label>
           
 </div>
   </div>
-<div class="row">
-  <div class="input-field col s2">
-<i class="material-icons">add</i>
-</div>
-  </div>
+  <div class="row">
+           <div class="input-field col s10 offset-s1">
+           
+<select id="lounge_name" name="lounge_name">
+{% for lounge in lounges %}
+           <option value="{{lounge}}">{{lounge}}</option>
+{% endfor %}
+</select>
+<label for="lounge_name">
+           <span>Lounge Name<sup>*</sup>:</span>
+           </label>
+           </div>
+           </div>
+
     
  <script>
  
- var my_data = {{members|safe}}
- 
+ var member_name = {{members|safe}}
 $(document).ready(function(){
 $('input.autocomplete').autocomplete({
-    data: my_data
+    data: member_name
   });
 });
+$(document).ready(function() {
+               $('select').material_select();
+               });
  </script>
-      
+ {% load static %}
+<script src="{% static 'js/addInput.js' %}" language="Javascript" type="text/javascript"></script>
+<form method="POST">
+     <div id="dynamicFoodInput">
+     <div class="input-field col s10 offset-s1">
+          <input type="text" name="foodItem" id="item1"> <label for="item1">Food Item - 1</label>
+     </div>
+     </div>
+     <input type="button" class="btn waves-effect waves-light" value="Add another item" onClick="addInput('dynamicFoodInput');">
+</form>
+     
 <div class="row">
   <div class="input-field col s6 offset-s3">
 

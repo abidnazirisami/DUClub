@@ -165,6 +165,20 @@ def getAddResponse(request):
         conn.commit()
         newFood = generateDetails(newName)
     return render(request, "food/details.html", context = {'food':newFood, 'message':"Added Successfully"})
+###################################################################
+def deletePrompt(request, name):
+    newFood = generateDetails(name)
+    return render(request, "food/confirmDelete.html", context = {'food': newFood})
+###################################################################
+def deleteFood(request):
+    foodName = request.POST.get('foodname', None)
+    conn = dbase()
+    cursor = conn.getCursor()
+    args = [foodName,]
+    s = cursor.callproc("deleteFood", args)
+    conn.commit()    
+    cursor.close()
+    return render(request, "food/deleteSuccess.html")
 
 
 
