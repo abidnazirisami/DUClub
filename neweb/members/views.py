@@ -70,6 +70,17 @@ class Member:
         self.id = id
     def addDept(self, dept):
         self.department=dept
+    def makeMember(self,id, name,contact,presentAdress,permanentAdress,designation,dept,status,email,type):
+        self.name = name
+        self.id = id
+        self.contact = contact
+        self.presentAdress = presentAdress
+        self.permanentAdress = permanentAdress
+        self.designation = designation
+        self.dept = dept
+        self.status = status
+        self.email = email
+        self.type = type
 ########################################################################################################
 def getMembers(search_id):
     if not search_id:
@@ -143,7 +154,8 @@ def deleteMemberPage(request):
     return render(request, "members/deleteMember.html", context={'warning':""})
 ####################################################################
 def updateMemberPage(request, memberid):
-    return render(request, "members/updateForm.html", context={'warning':"", 'id':memberid})
+    newMember=generateDetails(memberid)
+    return render(request, "members/updateForm.html", context={'warning':"", 'member':newMember})
 ####################################################################
 def deleteMember(request, memberid): 
     conn = dbase()
@@ -202,4 +214,20 @@ def updateMember(request, memberid):
     s = cursor.callproc("updateMember", args)
     conn.commit()    
     cursor.close()
-    return render(request, "members/updateSuccess.html", context = {'name': name, 'mail':mail, 'cell_no':cell_no,'present_ad':present_ad,'permanent_ad':permanent_ad,'dept':dept,'designation':designation, 'status': status,'member_type':member_type})
+    newMember=generateDetails(memberid)
+    return render(request, "members/details.html", context = {'member':newMember, 'message':"Updated Successfully"})
+
+###########################################################################
+def generateDetails(memberid):
+    conn = dbase()
+    cursor = conn.getCursor ()
+    cursor.execute ("select * from Accounts where memberID = "+memberid)
+    row = cursor.fetchone()
+    mem = Member(row[0],row[1]);
+    mem.makeMember(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[10])
+    cursor.close()
+    return mem
+################################################################
+def getDetails(request, id):
+    newMember=generateDetails(id)    
+    return render(request, "members/details.html", context = {'member':newMember, 'message':" "})	

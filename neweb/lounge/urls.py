@@ -10,10 +10,10 @@ urlpatterns = [
     url(r'^addLounge/$', addLounge),
     url(r'^loungeForm/$', addLng),
     url(r'^deleteLounge/$', deleteLounge),
-    url(r'^deleteLng/$', deleteLng),
+    url(r'^deleteLng/(.{1,30})/$', deleteLng),
     url(r'^updateLounge/$', updateLounge),
-    
+    url(r'^details/(.{1,30})', getDetails),
     url(r'^add/$', addLoungePage),
-    url(r'^delete/$', deleteLoungePage),
-    url(r'^update/$', updateLoungePage),
+    url(r'^delete/(.{1,30})/$', deleteLoungePage),
+    url(r'^update/(.{1,30})/$', updateLoungePage),
 ]

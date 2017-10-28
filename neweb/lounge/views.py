@@ -11,17 +11,30 @@ import MySQLdb
 import abc, six
 
 ###############################################################################
+class Lounge:
+    def __init__(self, id, name):
+        self.name = name
+        self.id = id
+###############################################################################
 def loungeHome(request):
-    return render(request, "lounge/loungeHome.html")
+    conn = dbase()
+    cursor = conn.getCursor ()
+    cursor.execute ("select LoungeID, LoungeName from Lounge")
+    loungeList=[]
+    row = cursor.fetchall()
+    for i in row:
+        newLounge = Lounge(i[0], i[1])
+        loungeList.append(newLounge)
+    return render(request, "lounge/loungeHome.html" ,  context={'lounge': loungeList})
 ################################################################################
 def addLoungePage(request):
     return render(request, "lounge/loungeForm.html", context={'warning':""})
 ################################################################################
-def deleteLoungePage(request):
-    return render(request, "lounge/deleteLounge.html", context={'warning':""})
+def deleteLoungePage(request,name):
+    return render(request, "lounge/deleteLounge.html", context={'warning':"",'id': name})
 ################################################################################
-def updateLoungePage(request):
-    return render(request, "lounge/updatelounge.html", context={'warning':""})
+def updateLoungePage(request,name):
+    return render(request, "lounge/updatelounge.html", context={'warning':"", 'id' : name})
 ###############################################################
 ################### Strategy Pattern ##########################
 ###############################################################
@@ -70,16 +83,6 @@ class SearchAll(SearchClass):
         cursor = conn.getCursor ()
         cursor.execute ("select LoungeID, LoungeName from Lounge")
         return cursor.fetchall()
-
-
-
-################################################################
-class Lounge:
-    counter=0
-    def __init__(self, id, name):
-        self.name = name
-        self.id = id
-        Lounge.counter += 1
 ########################################################################################################
 def search(request):
     loungeList = []
@@ -124,7 +127,7 @@ def addLng(request):
 ###############################################################
 
 def deleteLounge(request):
-    Loungeid = request.POST.get('loungeid', None)
+    loungeid = request.POST.get('loungeid', None)
     if not Loungeid:
         return render(request, "lounge/deleteLounge.html", context={'warning': "Please enter the id of the Lounge"})
  
@@ -137,10 +140,8 @@ def deleteLounge(request):
         row = cursor.fetchone()
         return render(request, "lounge/confirmLounge.html", context = {'name': row[1], 'loungeid':row[0]})
 ##########################################################
-def deleteLng(request):
-    loungeid = request.POST.get('loungeid', None)
-    if not loungeid:
-        return render(request, "lounge/deleteLounge.html", context={'warning': "Please enter the id of the lounge"})
+def deleteLng(request,loungeid):
+
     conn = dbase()
     cursor = conn.getCursor()
     args = [loungeid,]
@@ -160,7 +161,7 @@ def updateLounge(request):
     if cursor.rowcount == 0:
         return render(request, "lounge/updatelounge.html", context={'warning': "Please enter a valid ID"})
     row = cursor.fetchone()
-    name = request.POST.get('username', None)
+    name = request.POST.get('name', None)
     if not name:
         name = row[1]
     args = [loungeid,name]
@@ -169,3 +170,15 @@ def updateLounge(request):
     cursor.close()
     
     return render(request, "lounge/LoungeSuccess.html", context = {'name': name})
+######################################################################
+def generateDetails(loungeid):
+    conn = dbase()
+    cursor = conn.getCursor ()
+    cursor.execute ("select * from Lounge where loungeID = "+loungeid)
+    row = cursor.fetchone()
+    newLounge = Lounge(row[0],row[1])
+    return newLounge
+################################################################
+def getDetails(request, name):
+    newLounge=generateDetails(name)    
+    return render(request, "lounge/details.html", context = {'lounge':newLounge, 'message':" "})

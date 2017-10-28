@@ -3,75 +3,6 @@
 
 {% block content %}
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <style>
-    
-form {
-    margin: 0 auto;
-    width: 500px;
-    padding: 1em;
-}
-
-div+div {
-    margin-top: 1em;
-}
-
-label span {
-    font: 1em consolas;
-    display: inline-block;
-    position: relative;
-    width: 120px;
-    text-align: left;
-    color: #FFFFFF;
-}
-
-input, textarea {
-    font: 1em consolas;
-    width: 250px;
-    box-sizing: border-box;
-    border: 1px solid #999;
-}
-
-input[type=checkbox], input[type=radio] {
-    width: auto;
-    border: none;
-}
-
-input:focus, textarea:focus {
-    border-color: #000;
-}
-
-textarea {
-    vertical-align: top;
-    height: 8em;
-    resize: vertical;
-}
-
-fieldset {
-    width: 250px;
-    box-sizing: border-box;
-    margin-left: 0px;
-    border: 1px solid #999;
-}
-
-
-
-label {
-  position: relative;
-}
-
-label em {
-  position: relative;
-}
-
-
-
-
-</style>
-    </head>
     <script>
    $(document).ready(function() {
     $('select').material_select();
@@ -80,63 +11,66 @@ label em {
   <body>
   <div class="container">
   <div class="row valign-wrapper">
-    <div class="col s6 offset-s3 valign">
+    <div class="col s8 offset-s2 valign">
       <div class="card blue-grey darken-1">
         <div class="card-content white-text" style="vertical-align: middle">
-          <span class="card-title">Edit</span>
+          <span class="card-title">Edit Member</span>
 <div class="row">
-    <br>
-    <form method="post" action="/members/update/"> {% csrf_token %}
+    
+    <form method="post" action="/members/update/{{member.id}}/"> {% csrf_token %}
     <div style="color:red">{{ warning }} <br> </div>
     <small style="color:white"> <i> Leave out the fields which do not require updating <sup>*</sup> </i> </small>
     <section>
+    <div class="col s10 offset-s1">
     <h2>Contact information</h2>
-    <p>
+    <!--<p>
       <label for="id">
         <span>Member ID<sup>*</sup>: </span>
             
       </label>
-      <input type="text" id="memberid" name="memberid" value="{{id}}">
-    </p>
+      <input type="text" id="memberid" name="memberid" value="{{member.id}}">
+    </p>-->
     <p>
       <label for="name">
         <span>Name: </span>
             
       </label>
-      <input type="text" id="name" name="username">
+      <input type="text" id="name" name="username" value="{{member.name}}">
     </p>
     <p>
       <label for="mail">
         <span>E-mail: </span>
       </label>
-      <input type="email" id="mail" name="usermail">
+      <input type="email" id="mail" name="usermail" value="{{member.email}}">
     </p>
     <p>
       <label for="num">
         <span>Contact no.: </span>
       </label>
-      <input type="text" id="cellno" name="contactno">
+      <input type="text" id="cellno" name="contactno" value="{{member.contact}}">
     </p>
+    </div>
 </section>
 <section>
+<div class="col s10 offset-s1">
     <h2>Personal information</h2>
      <p>
       <label for="present">
         <span>Present Address: </span>
         </label>
-      <input type="text" id="prad" name="userprad">
+      <input type="text" id="prad" name="userprad" value="{{member.presentAdress}}">
     </p>
      <p>
       <label for="permanent">
         <span>Permanent Address: </span>
       </label>
-      <input type="text" id="pmad" name="userpmad">
+      <input type="text" id="pmad" name="userpmad" value="{{member.permanentAdress}}">
     </p>
      <p>
       <label for="dept">
         <span>Department: </span>
       </label>
-      <input type="text" id="dept" name="userdept">
+      <input type="text" id="dept" name="userdept" value="{{member.dept}}">
     </p>
     <p>
       <label for="post">
@@ -168,11 +102,13 @@ label em {
         <option value="Privileged">Privileged</option>
       </select>
     </p>
+    </div>
 </section>
-<button class="btncls" type="submit" >Update Member</button>
+<br>
+<button class="waves-effect waves-light btn" type="submit" >Update Member</button>
 
     </form>
-    <hr>
+    
     </div>
     </div>
     </div>

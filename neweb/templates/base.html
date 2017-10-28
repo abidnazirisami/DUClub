@@ -71,7 +71,7 @@
     {% if user.is_authenticated %}
 <div align ="left" style="margin: 5px 10px 20px 25px; color: black;">
       Welcome to the club, {{ user.username }}! <br> <br>
-      <a href="{% url 'logout' %}"><button class = "btncls">Logout</button></a>
+      <a href="{% url 'logout' %}"><button class="waves-effect waves-light btn">Logout</button></a>
 </div>
       
   {% include "menubar.html" %}
@@ -82,7 +82,7 @@
   
     {% else %}
 <p align ="left">
-      <a href="{% url 'login' %}"><button class = "btncls">Log in</button></a>
+      <a href="{% url 'login' %}"><button class="waves-effect waves-light btn">Log in</button></a>
 </p>
     
     {% endif %}

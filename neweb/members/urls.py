@@ -6,12 +6,13 @@ from .views import *
 
 urlpatterns = [
     url(r'^$', memberHome),
+    url(r'^details/(.{1,30})/$', getDetails),
     url(r'^search/$', search),
     url(r'^addMember/$', addMember),
     url(r'^memberForm/$', addMem),
     url(r'^deleteMember/$', deleteMemberPage),
     url(r'^delete/(.{1,30})/$', deleteMember),
     url(r'^updateMember/(.{1,30})/$', updateMemberPage),
-    url(r'^update/$', updateMember),
+    url(r'^update/(.{1,30})/$', updateMember),
     url(r'^deleteMem/$', deleteMem),
 ]

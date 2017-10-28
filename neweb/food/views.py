@@ -139,7 +139,32 @@ def getWeeklyList(request, day):
     return render(request, "food/food.html", context = {'food':foodList, 'week':weekList, 'currentDay':day}) 
 #########################################################################
 
-
+def getAddForm(request):
+    newFood = Food("","")
+    return render(request, "food/addForm.html", context = {'food':newFood})
+###################################################################
+def getAddResponse(request):
+    newFood = Food("","")
+    if request.method == 'POST':
+        newName = request.POST.get('food_name', None)
+	if newName == "":
+            return render(request, "food/addForm.html", context = {'food':newFood,'warning':"Please give a name"})
+        price = request.POST.get('food_price', None)
+        if price == "":
+            return render(request, "food/addForm.html", context = {'food':newFood,'warning':"Place add a price"})
+        days=[]
+        times=[]
+        days=request.POST.getlist('day')
+        times=request.POST.getlist('time')
+        weekBitmask=Food(newName,price).getWeekBitMask(days)
+        timeBitMask=Food(newName,price).getTimeBitMask(times)
+        conn = dbase()
+        cursor=conn.getCursor()
+        args=[newName,price,weekBitmask,timeBitMask,]
+        cursor.callproc("addFoodItem", args)
+        conn.commit()
+        newFood = generateDetails(newName)
+    return render(request, "food/details.html", context = {'food':newFood, 'message':"Added Successfully"})
 
 
 

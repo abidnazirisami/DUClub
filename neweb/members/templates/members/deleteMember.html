@@ -9,27 +9,6 @@
     <meta charset="utf-8">
     <style>
     
-form {
-    margin: 0 auto;
-    width: 500px;
-    padding: 1em;
-    border: 1px solid #FFFFFF;
-    border-radius: 1em;
-}
-
-div+div {
-    margin-top: 1em;
-}
-
-label span {
-    font: 1em consolas;
-    display: inline-block;
-    position: relative;
-    width: 120px;
-    text-align: left;
-    color: #FFFFFF;
-}
-
 input, textarea {
     font: 1em consolas;
     width: 250px;
@@ -46,41 +25,14 @@ input:focus, textarea:focus {
     border-color: #000;
 }
 
-textarea {
-    vertical-align: top;
-    height: 8em;
-    resize: vertical;
-}
-
-fieldset {
-    width: 250px;
-    box-sizing: border-box;
-    margin-left: 0px;
-    border: 1px solid #999;
-}
-
-select {
-    font: 1em consolas;
-    display: inline-block;
-    position: relative;
-    width: 250px;
-    text-align: left;
-}
-
-label {
-  position: relative;
-}
-
-label em {
-  position: relative;
-}
-
-
-
-
 </style>
     </head>
   <body>
+  <div class="container" align="left">
+  <div class="row valign-wrapper">
+    <div class="col s6 offset-s3 valign">
+      <div class="card blue-grey darken-1">
+        <div class="card-content white-text" style="vertical-align: middle">
     <br>
     <form method="post" action="/members/delete/"> {% csrf_token %}
     <div style="color:red">{{ warning }} <br> </div>
@@ -102,7 +54,11 @@ label em {
 <button class="btncls" type="submit" >Delete Member</button>
 
     </form>
-    <hr>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
   </body>
 </html>
 

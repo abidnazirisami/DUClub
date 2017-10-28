@@ -243,3 +243,13 @@ set FoodName = name, FoodPrice = price, weekBitmask=weekMask, timeBitmask=timeMa
 where FoodID = ID;
 END //
 delimiter ;
+
+--Version 0.0.2
+
+delimiter //
+CREATE PROCEDURE addFoodItem (IN name VARCHAR(2555), IN price int, IN weekMask int, IN timeMask int)
+BEGIN
+INSERT INTO FoodItem(FoodName, FoodPrice, weekBitmask, timeBitmask)
+VALUES(name,price,weekMask,timeMask);
+END //
+delimiter ;

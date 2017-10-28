@@ -3,39 +3,18 @@
 
 {% block content %}
 <style>
-h2
+#txt1 
 {
-    color: white;
+    
+    font-size: 17px;
 }
-h3
+a
 {
-    color: white; 
+    color : white;
 }
-button1 {
-    background-color: transparent;
-    background-repeat:no-repeat;
-    border: transparent;
-    cursor: pointer;
-    overflow: hidden;
-    outline: transparent;
-    color: white; 
-   text-decoration: none;
-padding: 4%;
-font-size: 20px;
-
+table.highlight tbody tr:hover {
+    background-color: #26a69a !important;
 }
-p
-{
-color:white
-}
-small
-{
-color:white;
-
-}
-
-/*https://www.w3schools.com/css/tryit.asp?filename=trycss_form_search_anim*/
-
 input[type=text] {
     width: 90px;
     height: 40px;
@@ -49,35 +28,51 @@ input[type=text] {
     -webkit-transition: width 0.2s ease-in-out;
     transition: width 0.2s ease-in-out;
 }
-
 input[type=text]:focus {
     width: 100%;
 }
-
 </style>
 
-
 <div style="display: inline-block;position: absolute; right: 130px; top:167px;";>
- <form method="POST" action="/lounge/search/">
+<form method="POST" action="/lounges/search/">
 {% csrf_token %}
-<input class="browser-default" type="text" name="textfield" placeholder="Search with lounge name/id.."><br>
+<input class="browser-default" type="text" name="textfield" placeholder="Search with name or id.."><br>
 
 </form>
 
 </div>
-<div style="display: inline-block; position: absolute; left: 75px; top:290px;";>
- <a href="/lounge/add"><button class = "btncls">Add Lounge</button></a>
 </div>
+<br>
+<div class="center-align">
+<div class="container">
+  <div class="row valign-wrapper">
+    <div class="col s8 offset-s2 valign">
+      <div class="card blue-grey darken-1">
+        <div class="card-content white-text">
+          <span class="card-title">List of Lounge</span>
 
-</div>
-<div style="display: inline-block; position: absolute; left: 75px; top:340px;";>
- <a href="/lounge/delete"><button class = "btncls">Delete Lounge</button></a>
-</div>
 
-</div>
-<div style="display: inline-block; position: absolute; left: 75px; top:390px;";>
- <a href="/lounge/update"><button class = "btncls">Update Lounge</button></a>
-</div>
+<table class="highlight"> 
 
+<thread><tr> <th>ID</th><th>Name</th><th>Edit</th><th>Delete</th></tr></thread>
+<tbody>
+{% for lounges in lounge %}
+    <tr> <td><a>{{lounges.id}}</a></td><td><a id="txt1" href="/lounge/details/{{lounges.id}}">{{lounges.name}}<a></th><th><a href="/lounge/update/{{lounges.id}}"><i class="small material-icons" style="color: #81c784">edit</i> </a></th><th><a href="/lounge/delete/{{lounges.id}}"><i class="small material-icons" style="color: #e57373">delete</i></a> </th></tr>
+  {% endfor %}
+  </tbody>
+  
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="fixed-action-btn horizontal click-to-toggle">
+    <a href="/lounge/add" class="btn-floating btn-large  waves-effect waves-light red">
+      <i class="large material-icons">add</i>
+    </a>
+  </div>
 {% endblock %}
 <hr>
+
