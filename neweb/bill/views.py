@@ -12,7 +12,11 @@ import MySQLdb
 import abc, six
 import datetime
 from dateutil.tz import tzlocal
-
+###############################################################################################
+class Item:
+    def __init__(self, name, quantity):
+        self.name = name
+        self.quantity = quantity
 
 ###############################################################################################
 
@@ -34,8 +38,15 @@ def billForm(request):
 def submitBill(request):
     name = request.POST.get('member_name',None)
     date = request.POST.get('date', None)
+    foodList = request.POST.getlist('foodname')
+    quantity = request.POST.getlist('itemNum')
+    items = []
+    index=0
+    for food in foodList:
+        items.append(Item(food, quantity[index]))
+        index+=1
     if not name:
         return render(request, "bill/billForm.html", context={'warning':"Please insert the name of the member"})
-    return render(request, "bill/billCreated.html", context = {'name': name, 'date': date})
+    return render(request, "bill/billCreated.html", context = {'name': name, 'date': date, 'food': items})
 
 ###############################################################################################

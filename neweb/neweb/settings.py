@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'members.apps.MembersConfig',
     'food.apps.FoodConfig',
     'bill.apps.BillConfig',
+    'mail.apps.MailConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

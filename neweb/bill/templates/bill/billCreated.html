@@ -2,7 +2,10 @@
 <!--{% block title %}Success{% endblock %} -->
 {% block content %}
 
+
 <body>
+<br>
+
 <div class="container">
   <div class="row valign-wrapper">
     <div class="col s6 offset-s3 valign">
@@ -13,11 +16,25 @@
 
 <span> Member Name: {{ name }} </span><br>
 <span> Issue Date: {{ date }} </span>
-</h3>
+
+<table class="highlight"> 
+
+<thread><tr> <th>Name</th><th>Quantity</th></tr></thread>
+<tbody>
+{% for foods in food %}
+    <tr> <td>{{foods.name}}</td><td>{{foods.quantity}}</th><th></tr>
+  {% endfor %}
+  </tbody>
+  
+</table>
+
 </div>
 </div>
 </div>
 </div>
+</div>
+<div class="fixed-action-btn horizontal click-to-toggle">
+<a class="btn-floating btn-large waves-effect waves-light red"><i title="Send Mail" class="material-icons">email</i></a>
 </div>
 </body>
 

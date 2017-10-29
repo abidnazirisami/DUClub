@@ -9,12 +9,19 @@ from django.core.mail import EmailMessage
 import MySQLdb
 import abc, six
 from django.shortcuts import render
-
+from members.views import *
 # Create your views here.
 
 def mailHome(request):
-    return render(request, "mail/mailHome.html")
+    memberList=getMembers('')
+    membersJSON = {}
+    for member in memberList:
+        membersJSON[member.name]=0
+    return render(request, "mail/mailHome.html",context= {'members':membersJSON})
 ###################################################################3
 def sendMail(request):
-   email = EmailMessage('IMPORTANT', 'kisuparina', to=["raidanahian@gmail.com","abidnazirisami@gmail.com","sdp02342017@gmail.com"])
+   subject = request.POST.get('subject', None)
+   body = request.POST.get('message', None)
+   email = EmailMessage(subject, body, to=["raidanahian@gmail.com","abidnazirisami@gmail.com","sdp02342017@gmail.com"])
    email.send()
+   return render(request, "mail/sent.html")
