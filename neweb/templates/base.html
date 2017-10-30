@@ -15,6 +15,22 @@
   <meta charset="utf-8">
   <title>{% block title %}DU Club{% endblock %}</title>
 <style>
+input[type=text] {
+    width: 90px;
+    height: 40px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: white;
+    font: 1em consolas;
+    padding: 12px 20px 12px 20px;
+    -webkit-transition: width 0.2s ease-in-out;
+    transition: width 0.2s ease-in-out;
+}
+input[type=text]:focus {
+    width: 100%;
+}
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,

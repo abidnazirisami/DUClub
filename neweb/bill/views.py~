@@ -74,8 +74,6 @@ def submitBill(request):
         args = [items[index].id,billID,quantity[index],]
         cursor.callproc("foodToBill", args)
         index+=1
-    args = [cost,billID,]
-    cursor.callproc("updateTotal",args)
     conn.commit()
     return render(request, "bill/billCreated.html", context = {'name': name, 'date': date, 'food': items,'cost': cost})
 

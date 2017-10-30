@@ -19,8 +19,8 @@ class Lounge:
 ###############################################################################
 def loungeHome(request):
     conn = dbase()
-    cursor = conn.getCursor ()
-    cursor.execute ("select LoungeID, LoungeName from Lounge")
+    cursor = conn.getCursor()
+    s = cursor.callproc("getAllLounge", [])
     loungeList=[]
     row = cursor.fetchall()
     for i in row:
@@ -169,6 +169,55 @@ def getDetails(request, name):
     newLounge=generateDetails(name)    
     return render(request, "lounge/details.html", context = {'lounge':newLounge, 'message':" "})
 ######################################################################
+
+@six.add_metaclass(abc.ABCMeta)
+class Iterator:
+    def __init__():
+        pass
+    def hasNext():
+        pass
+    def next():
+        pass
+
+
+
+@six.add_metaclass(abc.ABCMeta)
+class Container:
+    def __init__():
+        pass
+    def getIterator():
+        pass
+
+class LoungeContaner(Container):
+    def __init__():        
+        conn = dbase()
+        cursor = conn.getCursor ()
+        cursor.execute ("select * from Lounge")
+        self._list = cursor.fetchall()
+        
+    class RealIterator(Iterator):
+        _id = 0
+        def __init__():
+            self._id = 0  
+        def hasNext():
+            return self._id < length(self.self._list)
+        def next():
+            self._id = self._id +1
+            return list[self._id-1]
+        
+    def getIterator():
+        return RealIterator()
+
+
+def getLoungeList2():
+    loungeContaner = LoungeContaner()
+    iterator = lougeContainer.getIterator()
+    loungeList = []
+    while(iterator.hasNext()):
+        temp = iterator.next()
+        loungeList.append(Lounge(temp[0], temp[1]))
+    return loungeList
+        
 def getLoungeList():
     conn = dbase()
     cursor = conn.getCursor ()
@@ -178,4 +227,4 @@ def getLoungeList():
     for lounge in row:
         loungeList.append(Lounge(lounge[0], lounge[1]))
     return loungeList
-        
+            

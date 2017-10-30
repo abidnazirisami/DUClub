@@ -100,7 +100,7 @@ def search(request):
     if request.method == 'POST':
         search_id = request.POST.get('textfield', None)
         memberList = getMembers(search_id)
-        return render(request, "members/searchResults.html",context={'member':memberList})    
+        return render(request, "members/members.html",context={'member':memberList})    
 ################################################################################################        
 def memberHome(request):
     conn = dbase()

@@ -10,17 +10,15 @@ from neweb.views import *
 
 
 #########################################################################
-################################# F O O D ###############################
+############################# NULL Pattern ##############################
 #########################################################################
-class Food:
+@six.add_metaclass(abc.ABCMeta)
+class abstractFood:
     weekDayList = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
     dayTimeList = ['Breakfast','Lunch','Snacks','Dinner']
+    @abc.abstractmethod
     def __init__(self, name, price):
-        self.name = name
-        self.price = price
-        self.days=[]
-        self.times=[]
-        self.available="Not Available"
+        pass
 #########################################################################      
     
     def getWeekdays(self, bitMask):
@@ -75,9 +73,21 @@ class Food:
                 return 1
         return 0
 #########################################################################
+class Food(abstractFood):
+    def __init__(self, name, price):
+        self.name = name
+        self.price = price
+        self.days=[]
+        self.times=[]
+        self.available="Not Available"
+
 #########################################################################
-################################################################
-################################################################
+class NullFood(abstractFood):
+    def __init__(self):
+        pass
+#########################################################################
+#########################################################################
+#########################################################################
 def generateDetails(name):
     conn = dbase()
     cursor = conn.getCursor ()
@@ -143,7 +153,7 @@ def getWeeklyList(request, day):
 #########################################################################
 
 def getAddForm(request):
-    newFood = Food("","")
+    newFood = NullFood()
     return render(request, "food/addForm.html", context = {'food':newFood})
 ###################################################################
 def getAddResponse(request):

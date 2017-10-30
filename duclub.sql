@@ -1,4 +1,4 @@
-CREATE TABLE Accounts (
+CREATE TABLE IF NOT EXISTS Accounts (
     MemberID int primary key AUTO_INCREMENT,
     MemberName varchar(255),
     MemberContactNo varchar(20),
@@ -13,21 +13,21 @@ CREATE TABLE Accounts (
 );
 
 
-CREATE TABLE Lounge (
+CREATE TABLE IF NOT EXISTS Lounge (
       LoungeID int key NOT NULL AUTO_INCREMENT,
-      LoungeName varchar(255)
+      LoungeName varchar(255) unique
 );
 
-CREATE TABLE FoodItem (
+CREATE TABLE IF NOT EXISTS FoodItem (
       FoodID int primary key NOT NULL AUTO_INCREMENT,
-      FoodName varchar(2555),
+      FoodName varchar(2555) unique,
       FoodPrice int,
       weekBitmask int,
       timeBitmask int
 );
 
 INSERT INTO FoodItem (FoodName, FoodPrice, weekBitMask, timeBitmask) VALUES
-( 'Chitoipitha', 10, 91001001, 91010),
+('Chitoipitha', 10, 91001001, 91010),
 ('Rumaliruti', 15, 91111111, 91010),
 ('Beef', 70, 91111111, 90101),
 ('Daal', 60, 91000100, 91101),
@@ -54,20 +54,20 @@ INSERT INTO FoodItem (FoodName, FoodPrice, weekBitMask, timeBitmask) VALUES
 ('Tea', 20, 90000000, 91111),
 ('coffee', 20, 91111111, 91111);
 
-CREATE TABLE GameTable (
+CREATE TABLE IF NOT EXISTS GameTable (
       GameID int primary key NOT NULL AUTO_INCREMENT,
-      GameName varchar(2555),
+      GameName varchar(2555) unique,
       GameFee int
 );
 
-CREATE TABLE Admin(
+CREATE TABLE IF NOT EXISTS Admin(
       MemberID int,
       AdminID int primary key NOT NULL AUTO_INCREMENT,
       adminPassword varchar(2555),
 CONSTRAINT FK_MemberID FOREIGN KEY (MemberID) REFERENCES Accounts(MemberID)
 );
 
-CREATE TABLE LoungeBooking(
+CREATE TABLE IF NOT EXISTS LoungeBooking(
       LoungeID int,
       bookingID int primary key NOT NULL AUTO_INCREMENT,
       startTime datetime,
@@ -76,7 +76,7 @@ CONSTRAINT FK_LoungeID FOREIGN KEY (LoungeID) REFERENCES Lounge(LoungeID)
 );
 
 
-CREATE TABLE GameBooking(
+CREATE TABLE IF NOT EXISTS GameBooking(
       LoungeID int,
       GameID int,
       GLID int primary key NOT NULL AUTO_INCREMENT,
@@ -87,19 +87,25 @@ CONSTRAINT FK_GameLoungeID FOREIGN KEY (LoungeID) REFERENCES Lounge(LoungeID),
 CONSTRAINT GameLID FOREIGN KEY (GameID) REFERENCES GameTable(GameID)
 );
 
-CREATE TABLE BillTable(
+CREATE TABLE IF NOT EXISTS BillTable(
       LoungeID int,
-      FoodID int,
       BillID int primary key NOT NULL AUTO_INCREMENT,
       MemberID int,
-      Quantity int,
+      BillDate date,
       Discount double(10,2),
-      Date date,
      Total double(10,2),
 CONSTRAINT FK_BillLoungeID FOREIGN KEY (LoungeID) REFERENCES Lounge(LoungeID),
 
-CONSTRAINT FK_BilMemberID FOREIGN KEY (MemberID) REFERENCES Accounts(MemberID),
+CONSTRAINT FK_BilMemberID FOREIGN KEY (MemberID) REFERENCES Accounts(MemberID)
 
+
+);
+
+CREATE TABLE IF NOT EXISTS BillFoodTable(
+      FoodID int,
+      BillID int,
+      Quantity int,      
+CONSTRAINT FK_BillID FOREIGN KEY (BillID) REFERENCES BillTable(BillID),
 CONSTRAINT FK_BillFoodID FOREIGN KEY (FoodID) REFERENCES FoodItem(FoodID)
 
 );
@@ -174,14 +180,6 @@ END //
 delimiter ;
 
 
-delimiter //
-CREATE PROCEDURE addLounge (IN name VARCHAR(255))
-BEGIN
-INSERT INTO Lounge(LoungeName)
-VALUES (name);
-END //
-delimiter;
-
 
 delimiter //
 CREATE PROCEDURE deleteLounge (IN lngID int)
@@ -226,7 +224,7 @@ END //
 delimiter ;
 
 
---Version 1.3.1:
+-- Version 1.3.1
 
 delimiter //
 CREATE PROCEDURE searchFoodWithName (In name VARCHAR(2555))
@@ -244,7 +242,7 @@ where FoodID = ID;
 END //
 delimiter ;
 
---Version 0.0.2
+-- Version 0.0.2
 
 delimiter //
 CREATE PROCEDURE addFoodItem (IN name VARCHAR(2555), IN price int, IN weekMask int, IN timeMask int)
@@ -254,7 +252,7 @@ VALUES(name,price,weekMask,timeMask);
 END //
 delimiter ;
 
---Version 1.4.0
+-- Version 1.4.0
 
 
 delimiter //
@@ -262,5 +260,46 @@ CREATE PROCEDURE deleteFood (IN name VARCHAR(2555))
 BEGIN
 delete from FoodItem
 where FoodName = name;
+END //
+delimiter ;
+
+
+-- version raidacry
+
+delimiter //
+CREATE PROCEDURE addBill (
+      IN loungeID int,
+      IN billID int,
+      IN memberID int,
+      IN billDate date,
+      IN discount double(10,2),
+      IN total double(10,2))
+BEGIN
+INSERT INTO BillTable(LoungeID,BillID,MemberID,BillDate,Discount,Total)
+VALUES(loungeID,billID,memberID,billDate,discount,total);
+END //
+delimiter ;
+
+
+
+
+delimiter //
+CREATE PROCEDURE foodToBill (
+      IN foodID int,
+      IN billID int,
+      IN quantity int)
+BEGIN
+INSERT INTO BillTable(FoodID,BillID,Quantity)
+VALUES(foodID,billID,quantity);
+END //
+delimiter ;
+
+
+-- Version 1.5.1
+
+delimiter //
+CREATE PROCEDURE getAllLounge ()
+BEGIN
+select LoungeID, LoungeName from Lounge;
 END //
 delimiter ;
