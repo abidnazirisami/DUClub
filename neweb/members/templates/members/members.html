@@ -1,8 +1,16 @@
 {% extends "base.html" %}
-<!--{% block title %}Members{% endblock %} -->
+{% block title %}Members{% endblock %}
 
 {% block content %}
 <style>
+li {
+    position: relative;
+    float: center;
+}
+ul {
+     position: relative;
+    
+}
 #txt1 
 {
     
@@ -31,8 +39,18 @@ input[type=text] {
 input[type=text]:focus {
     width: 100%;
 }
-</style>
 
+
+
+</style>
+<script> 
+$(document).ready(function() {
+               $('select').material_select();
+               });
+$(document).ready(function(){
+    $('.collapsible').collapsible();
+  });
+  </script>
 <div style="display: inline-block;position: absolute; right: 130px; top:167px;";>
 <form method="POST" action="/members/search/">
 {% csrf_token %}
@@ -42,7 +60,51 @@ input[type=text]:focus {
 
 </div>
 </div>
-<br>
+<div class="container">
+<div class="row">
+<div class="input-field col s8 offset-s2">
+<form method="POST" action="/members/custom-search/">
+{% csrf_token %}
+<ul class = "collapsible popout" data-collapsible = "accordion">
+         <li style="float:none">
+            <div class = "collapsible-header">
+               <i class = "material-icons">search</i><input type="text" name="custom_search" placeholder="Custom Search..."> 
+               </div>
+            <div class = "collapsible-body">
+            
+            <div class="row container">
+            <div class="input-field s8 offset-s2">
+
+            <select id="dept" name="dept">
+     {% for dept in departments %}
+     <option value="{{dept}}">{{dept}}</option>
+     {% endfor %}
+     </select>
+    </div>
+    <div class="input-field s8 offset-s2">
+    <select id="designation" name="designation">
+     {% for designation in designations %}
+     <option value="{{designation}}">{{designation}}</option>
+     {% endfor %}
+     </select>
+    </div>
+    
+    
+    
+    <div class="input-field col s6 offset-s3">
+
+<button class="btn waves-effect waves-light" type="submit" name="action"><i class="material-icons left">search</i>Search</button>
+  
+</div>
+    
+</div>
+</div>
+         </li>
+      </ul>
+</form>
+      </div>
+</div>
+</div>
 <div class="center-align">
 <div class="container">
   <div class="row valign-wrapper">
@@ -51,6 +113,8 @@ input[type=text]:focus {
         <div class="card-content white-text">
           <span class="card-title">List of Members</span>
 
+          
+          
 
 <table class="highlight"> 
 

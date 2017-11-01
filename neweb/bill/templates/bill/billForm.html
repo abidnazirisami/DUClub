@@ -2,6 +2,26 @@
 {% block title %}Bill{% endblock %}
 {% block content %}
 
+ <script>
+ var member_name = {{members|safe}}
+$(document).ready(function(){
+$('input.autocomplete').autocomplete({
+    data: member_name,
+    
+  });
+});
+$(document).ready(function() {
+               $('select').material_select();
+               });
+$(document).ready(function(){
+    $('.collapsible').collapsible();
+  });
+ </script>
+ {% load static %}
+<script src="{% static 'js/addInput.js' %}" language="Javascript" type="text/javascript"></script>
+    
+    
+<br>
 <div class="container">
   <div class="row valign-wrapper">
 <form class="col s12" method="post" action="/bill/success/">{% csrf_token %}
@@ -14,17 +34,23 @@
     <div class="input-field col s4 offset-s8">
     <div class="row">
     
-  <input id="date" type="date" name="date" value="{{today.year}}-{{today.month}}-{{today.day}}"  style="color: white;"/>  
+  <input id="date" type="date" name="date" value="{{today.year}}-{{today.month}}-{{today.day}}"  style="color: white;" required="" aria-required="true"/>  
   </div>
 </div>
 
 <div class="row">    
 <div class="input-field col s10 offset-s1">
           <input type="text" id="autocomplete-input " class="autocomplete validate" required="" aria-required="true" name="member_name" autocomplete="off">
-          <label for="autocomplete-input">Member Name</label>
+          <label for="autocomplete-input">Member Name or ID<sup>*</sup>:</label>
           
 </div>
+<div class="input-field col s10 offset-s1">
+     <div id="memberinfo">
+            
+     </div>
+     </div>
   </div>
+  
   <div class="row">
            <div class="input-field col s10 offset-s1">
            
@@ -39,21 +65,6 @@
            </div>
            </div>
 
-    
- <script>
- 
- var member_name = {{members|safe}}
-$(document).ready(function(){
-$('input.autocomplete').autocomplete({
-    data: member_name
-  });
-});
-$(document).ready(function() {
-               $('select').material_select();
-               });
- </script>
- {% load static %}
-<script src="{% static 'js/addInput.js' %}" language="Javascript" type="text/javascript"></script>
     
     <div class="input-field col s6 offset-s3">
      <div id="dynamicFoodInput">
@@ -74,7 +85,6 @@ $(document).ready(function() {
      </select>
      </div>
 
-     
 <div class="row">
   <div class="input-field col s6 offset-s3">
 
@@ -93,7 +103,14 @@ $(document).ready(function() {
 </div>
 
 </div>   
-
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 {% endblock %}
         
         

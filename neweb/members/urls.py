@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'^$', memberHome),
     url(r'^details/(.{1,30})/$', getDetails),
     url(r'^search/$', search),
+    url(r'^custom-search/$', customSearch),
     url(r'^addMember/$', addMember),
     url(r'^memberForm/$', addMem),
     url(r'^deleteMember/$', deleteMemberPage),

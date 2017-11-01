@@ -112,7 +112,7 @@ def memberHome(request):
         newMember = Member(i[0], i[1])
         newMember.addDept(i[2])
         memberList.append(newMember)
-    return render(request, "members/members.html", context={'member': memberList})
+    return render(request, "members/members.html", context={'member': memberList, 'departments':["CSEDU", "EEEDU"], 'designations':["Professor","Assistant Professor"]})
 ################################################################
 ###############################################################
 ###############################################################
@@ -229,3 +229,11 @@ def generateDetails(memberid):
 def getDetails(request, id):
     newMember=generateDetails(id)    
     return render(request, "members/details.html", context = {'member':newMember, 'message':" "})	
+################################################################
+def customSearch(request):
+    name=request.POST.get('custom-search', None)
+    department=request.POST.get('dept', None)
+    designation=request.POST.get('designation', None)
+
+
+

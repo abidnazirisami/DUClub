@@ -34,12 +34,18 @@ def billForm(request):
     memberList=getMembers('')
     membersJSON = {}
     for member in memberList:
-        membersJSON[member.name]=0
+        key=member.name
+        key+=str(' [ID: ')
+        key+=str(member.id)
+        key+=str(']')
+        membersJSON[key]=0
     loungeList = getLoungeList()
     loungeJSON = {}
     for lounge in loungeList:
         loungeJSON[lounge.name] = 0
-    today={'year':datetime.datetime.now(tzlocal()).year, 'month':datetime.datetime.now(tzlocal()).month, 'day':datetime.datetime.now(tzlocal()).day}
+    now = datetime.datetime.now()
+    
+    today={'year':now.year, 'month':now.month, 'day':now.day}
     foodDict=getFoodList('All')
     return render(request, "bill/billForm.html", context ={'warning':"",'members':membersJSON, 'today': today, 'lounges': loungeJSON, 'foods': foodDict['food']})
 
@@ -51,6 +57,8 @@ def submitBill(request):
     lounge = request.POST.get('lounge_name', None)
     foodList = request.POST.getlist('foodname')
     quantity = request.POST.getlist('itemNum')
+    splitname = name.split(" [")
+    name=splitname[0]
     items = []
     index=0
     cost=0
