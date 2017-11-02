@@ -19,7 +19,7 @@ class Item:
         self.name = name
         self.quantity = quantity
     def calculatePrice(self):
-        conn = dbase()
+        conn = Singleton.dbase()
         cursor = conn.getCursor ()
         args = [self.name,]
         cursor.callproc ("searchFoodWithName", args)
@@ -63,7 +63,7 @@ def submitBill(request):
     index=0
     cost=0
     discount = 0
-    conn = dbase()
+    conn = Singleton.dbase()
     cursor = conn.getCursor()
     cursor.execute ("select MemberID from Accounts where MemberName like '%%%s%%'" %name)
     row = cursor.fetchone()

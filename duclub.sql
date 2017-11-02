@@ -295,6 +295,17 @@ END //
 delimiter ;
 
 
+
+delimiter //
+CREATE PROCEDURE updateTotal(IN newTotal int,IN id int)
+BEGIN
+update BillTable
+set Total = newTotal
+where BillID = id;
+END //
+
+delimiter ;
+
 -- Version 1.5.1
 
 delimiter //
@@ -303,3 +314,32 @@ BEGIN
 select LoungeID, LoungeName from Lounge;
 END //
 delimiter ;
+
+-- Version 1.7.0
+CREATE TABLE IF NOT EXISTS DeptObserver (
+    department varchar(100) unique not null
+);
+
+CREATE TABLE IF NOT EXISTS DesignationObserver (
+    designation varchar(100) unique not null
+);
+
+
+delimiter //
+CREATE PROCEDURE addDeptObserver (IN dept VARCHAR(255))
+BEGIN
+INSERT INTO DeptObserver(department) VALUES (dept);
+END //
+
+delimiter ;
+
+
+delimiter //
+CREATE PROCEDURE addDesignationObserver (IN desg VARCHAR(255))
+BEGIN
+INSERT INTO DesignationObserver(designation) VALUES (desg);
+END //
+
+delimiter ;
+
+

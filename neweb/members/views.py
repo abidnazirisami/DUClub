@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.shortcuts import render_to_response
@@ -9,7 +10,7 @@ from django.template import RequestContext
 from neweb.views import *
 import MySQLdb
 import abc, six
-
+from django.contrib.auth.decorators import permission_required
 
 
 ###############################################################
@@ -38,7 +39,7 @@ class SearchWithName(SearchClass):
 
 
     def searchMem(self, search_id):
-        conn = dbase()
+        conn = Singleton.dbase()
         cursor = conn.getCursor()
         args = [search_id,]
         s = cursor.callproc("searchMemWithName", args)
@@ -48,7 +49,7 @@ class SearchWithName(SearchClass):
 class SearchWithID(SearchClass):
 
      def searchMem(self,search_id):
-        conn = dbase()
+        conn = Singleton.dbase()
         cursor = conn.getCursor()
         args = [search_id,]
         s = cursor.callproc("searchMemWithID", args)
@@ -58,18 +59,25 @@ class SearchWithID(SearchClass):
 class SearchAll(SearchClass):
 
      def searchMem(self, search_id):
-        conn = dbase()
+        conn = Singleton.dbase()
         cursor = conn.getCursor()
         s = cursor.callproc("searchMemAll")
         return cursor.fetchall() 
 
-################################################################
 class Member:
+    subject_instance = Singleton.dbase()
     def __init__(self, id, name):
+        self.subject = self.subject_instance.getSubject()
         self.name = name
         self.id = id
     def addDept(self, dept):
+        self.subject.notify_all(["", dept])
+        #print(self.subject.subject_state)
         self.department=dept
+    def addDesignation(self, designation):
+        self.subject.notify_all([designation, ""])
+        #print(self.subject.subject_state)
+        self.designation = designation
     def makeMember(self,id, name,contact,presentAdress,permanentAdress,designation,dept,status,email,type):
         self.name = name
         self.id = id
@@ -101,18 +109,39 @@ def search(request):
         search_id = request.POST.get('textfield', None)
         memberList = getMembers(search_id)
         return render(request, "members/members.html",context={'member':memberList})    
-################################################################################################        
+################################################################################################
+def getDepts(cursor):
+    cursor.execute("select department from DeptObserver")
+    row2 = cursor.fetchall()
+    departments=[]
+    for i2 in row2:
+        departments.append(i2[0])
+    return departments
+    
+def getDesignations(cursor):
+    cursor.execute("select designation from DesignationObserver")
+    row3 = cursor.fetchall()
+    designations=[]
+    for i3 in row3:
+        designations.append(i3[0])
+    return designations
+################################################################################################
+
 def memberHome(request):
-    conn = dbase()
+    conn = Singleton.dbase()
     cursor = conn.getCursor ()
-    cursor.execute ("select MemberID, MemberName, department from Accounts")
+    cursor.execute ("select MemberID, MemberName, department, designation from Accounts")
     memberList=[]
     row = cursor.fetchall()
     for i in row:
         newMember = Member(i[0], i[1])
         newMember.addDept(i[2])
+        newMember.addDesignation(i[3])
         memberList.append(newMember)
-    return render(request, "members/members.html", context={'member': memberList, 'departments':["CSEDU", "EEEDU"], 'designations':["Professor","Assistant Professor"]})
+    departments=getDepts(cursor)
+    designations=getDesignations(cursor)
+    cursor.close()
+    return render(request, "members/members.html", context={'member': memberList, 'departments':departments, 'designations':designations})
 ################################################################
 ###############################################################
 ###############################################################
@@ -138,8 +167,11 @@ def addMember(request):
     member_type = request.POST.get('usertype', None)
     if not member_type:
         return render(request, "members/memberForm.html", context={'warning': "Please enter the type of the member"})
-    conn = dbase()
+    conn = Singleton.dbase()
     cursor = conn.getCursor() 
+    subject_instance=Singleton.dbase()
+    subject = subject_instance.getSubject()
+    subject.notify_all([designation,dept])
     args = [name,cell_no,present_ad,permanent_ad,designation,dept,status,mail,member_type,]
     s = cursor.callproc("addMember", args)
     conn.commit()    
@@ -158,7 +190,7 @@ def updateMemberPage(request, memberid):
     return render(request, "members/updateForm.html", context={'warning':"", 'member':newMember})
 ####################################################################
 def deleteMember(request, memberid): 
-    conn = dbase()
+    conn = Singleton.dbase()
     cursor = conn.getCursor()
     cursor.execute ("select * from Accounts where memberID = "+memberid)
     row = cursor.fetchone()
@@ -166,7 +198,7 @@ def deleteMember(request, memberid):
 ##########################################################
 def deleteMem(request):
     memberid = request.POST.get('memberid', None)
-    conn = dbase()
+    conn = Singleton.dbase()
     cursor = conn.getCursor()
     args = [memberid,]
     s = cursor.callproc("deleteMember", args)
@@ -175,7 +207,7 @@ def deleteMem(request):
     return render(request, "members/deleteSuccess.html")
 ###################################################################
 def updateMember(request, memberid):
-    conn = dbase()
+    conn = Singleton.dbase()
     cursor = conn.getCursor()
     cursor.execute ("select * from Accounts where memberID = "+memberid)
     if cursor.rowcount == 0:
@@ -209,15 +241,20 @@ def updateMember(request, memberid):
     if not member_type:
         member_type = row[10]
     args = [memberid,name,cell_no,present_ad,permanent_ad,designation,dept,status,mail,member_type,]
+    
+    subject_instance=Singleton.dbase()
+    subject = subject_instance.getSubject()
+    subject.notify_all([designation,dept])
     s = cursor.callproc("updateMember", args)
     conn.commit()    
     cursor.close()
+    
     newMember=generateDetails(memberid)
     return render(request, "members/details.html", context = {'member':newMember, 'message':"Updated Successfully"})
 
 ###########################################################################
 def generateDetails(memberid):
-    conn = dbase()
+    conn = Singleton.dbase()
     cursor = conn.getCursor ()
     cursor.execute ("select * from Accounts where memberID = "+memberid)
     row = cursor.fetchone()
@@ -229,11 +266,67 @@ def generateDetails(memberid):
 def getDetails(request, id):
     newMember=generateDetails(id)    
     return render(request, "members/details.html", context = {'member':newMember, 'message':" "})	
-################################################################
+###############################################################################
+############################# Decorator Pattern ###############################
+###############################################################################
+
 def customSearch(request):
+    queryObject = ConcreteMemberComponent()
     name=request.POST.get('custom-search', None)
+    if name is not None:
+        queryObject = ConcreteDecoratorName(queryObject,name)
     department=request.POST.get('dept', None)
+    print(department)
+    if department is not "":
+        queryObject = ConcreteDecoratorDepartment(queryObject,department)
     designation=request.POST.get('designation', None)
+    if designation is not "":
+        queryObject = ConcreteDecoratorDesignation(queryObject,designation)
+    query = queryObject.operation()
+    conn = Singleton.dbase()
+    cursor = conn.getCursor ()
+    cursor.execute (query)
+    memberList=[]
+    row = cursor.fetchall()
+    for i in row:
+        newMember = Member(i[0], i[1])
+        memberList.append(newMember)
+    return render(request, "members/members.html", context={'member': memberList, 'departments':["CSEDU", "EEEDU"], 'designations':["Professor","Assistant Professor"]})
+
+#########################################################################
+#########################################################################
+#########################################################################
+#########################################################################
+@six.add_metaclass(abc.ABCMeta)
+class Component():
+    @abc.abstractmethod
+    def operation(self):
+        pass
+@six.add_metaclass(abc.ABCMeta)
+class Decorator(Component):
+    def __init__(self, component, attribute):
+        self._component = component
+        self.attribute = attribute
+
+    @abc.abstractmethod
+    def operation(self, attribute):
+        pass
 
 
+class ConcreteDecoratorName(Decorator):
+    def operation(self):
+        return self._component.operation() + ' and MemberName like "%' + self.attribute +'%"'
 
+
+class ConcreteDecoratorDepartment(Decorator):
+    def operation(self):
+        return self._component.operation() + ' and department like "' + self.attribute +'"'
+
+class ConcreteDecoratorDesignation(Decorator):
+    def operation(self):
+        return self._component.operation() + ' and designation like "' + self.attribute +'"'
+
+class ConcreteMemberComponent(Component):
+    def operation(self):
+        return 'select * from Accounts where 1 = 1'
+##########################################################################

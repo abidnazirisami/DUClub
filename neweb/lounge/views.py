@@ -18,7 +18,7 @@ class Lounge:
         self.available="Available"
 ###############################################################################
 def loungeHome(request):
-    conn = dbase()
+    conn = Singleton.dbase()
     cursor = conn.getCursor()
     s = cursor.callproc("getAllLounge", [])
     loungeList=[]
@@ -63,7 +63,7 @@ class SearchWithName(SearchClass):
 
 
     def searchLng(self, request, search_id):
-        conn = dbase()
+        conn = Singleton.dbase()
         cursor = conn.getCursor ()
         cursor.execute ("select LoungeID, LoungeName from Lounge where LoungeName like '%%%s%%'" %search_id)
         return cursor.fetchall() 
@@ -72,7 +72,7 @@ class SearchWithName(SearchClass):
 class SearchWithID(SearchClass):
 
      def searchLng(self, request, search_id):
-        conn = dbase()
+        conn = Singleton.dbase()
         cursor = conn.getCursor ()
         cursor.execute ("select LoungeID, LoungeName from Lounge where LoungeID = '%s'" %search_id)
         return cursor.fetchall()
@@ -81,7 +81,7 @@ class SearchWithID(SearchClass):
 class SearchAll(SearchClass):
 
      def searchLng(self, request, search_id):
-        conn = dbase()
+        conn = Singleton.dbase()
         cursor = conn.getCursor ()
         cursor.execute ("select LoungeID, LoungeName from Lounge")
         return cursor.fetchall()
@@ -113,7 +113,7 @@ def addLounge(request):
     name = request.POST.get('loungename', None)
     if not name:
         return render(request, "lounge/loungeForm.html", context={'warning': "Please enter the name of the lounge"})
-    conn = dbase()
+    conn = Singleton.dbase()
     cursor = conn.getCursor()
     args = [name,]
     s = cursor.callproc("addLounge", args)
@@ -130,7 +130,7 @@ def deleteLounge(request, loungeid):
 ##########################################################
 def deleteLng(request):
     loungeid=request.POST.get('loungeid', None)
-    conn = dbase()
+    conn = Singleton.dbase()
     cursor = conn.getCursor()
     args = [loungeid,]
     s = cursor.callproc("deletelounge", args)
@@ -141,7 +141,7 @@ def deleteLng(request):
 #################################################################
 def updateLounge(request):
     loungeid = request.POST.get('loungeid', None)
-    conn = dbase()
+    conn = Singleton.dbase()
     cursor = conn.getCursor()
     cursor.execute ("select * from Lounge where loungeID = "+loungeid)
     if cursor.rowcount == 0:
@@ -158,7 +158,7 @@ def updateLounge(request):
     return render(request, "lounge/details.html", context = {'lounge': newLounge, 'message': "Updated Successfully"})
 ######################################################################
 def generateDetails(loungeid):
-    conn = dbase()
+    conn = Singleton.dbase()
     cursor = conn.getCursor ()
     cursor.execute ("select * from Lounge where loungeID = "+loungeid)
     row = cursor.fetchone()
@@ -190,7 +190,7 @@ class Container:
 
 class LoungeContaner(Container):
     def __init__():        
-        conn = dbase()
+        conn = Singleton.dbase()
         cursor = conn.getCursor ()
         cursor.execute ("select * from Lounge")
         self._list = cursor.fetchall()
@@ -219,7 +219,7 @@ def getLoungeList2():
     return loungeList
         
 def getLoungeList():
-    conn = dbase()
+    conn = Singleton.dbase()
     cursor = conn.getCursor ()
     cursor.execute ("select * from Lounge")
     row = cursor.fetchall()

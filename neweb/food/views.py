@@ -89,7 +89,7 @@ class NullFood(abstractFood):
 #########################################################################
 #########################################################################
 def generateDetails(name):
-    conn = dbase()
+    conn = Singleton.dbase()
     cursor = conn.getCursor ()
     args = [name,]
     cursor.callproc ("searchFoodWithName", args)
@@ -119,7 +119,7 @@ def getEditResponse(request, name):
         weekBitmask=Food(newName,price).getWeekBitMask(days)
         timeBitMask=Food(newName,price).getTimeBitMask(times)
         newFood = generateDetails(name)
-        conn = dbase()
+        conn = Singleton.dbase()
         cursor=conn.getCursor()
         args=[newFood.ID,newName,price,weekBitmask,timeBitMask,]
         cursor.callproc("updateFood", args)
@@ -128,7 +128,7 @@ def getEditResponse(request, name):
     return render(request, "food/details.html", context = {'food':newFood, 'message':"Updated Successfully"})
 ##########################################################################
 def getFoodList(day):
-    conn = dbase()
+    conn = Singleton.dbase()
     cursor = conn.getCursor ()
     cursor.execute ("select FoodName, FoodPrice, weekBitmask from FoodItem")
     foodList=[]
@@ -171,7 +171,7 @@ def getAddResponse(request):
         times=request.POST.getlist('time')
         weekBitmask=Food(newName,price).getWeekBitMask(days)
         timeBitMask=Food(newName,price).getTimeBitMask(times)
-        conn = dbase()
+        conn = Singleton.dbase()
         cursor=conn.getCursor()
         args=[newName,price,weekBitmask,timeBitMask,]
         cursor.callproc("addFoodItem", args)
@@ -185,7 +185,7 @@ def deletePrompt(request, name):
 ###################################################################
 def deleteFood(request):
     foodName = request.POST.get('foodname', None)
-    conn = dbase()
+    conn = Singleton.dbase()
     cursor = conn.getCursor()
     args = [foodName,]
     s = cursor.callproc("deleteFood", args)

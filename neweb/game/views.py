@@ -41,7 +41,7 @@ class SearchWithName(SearchClass):
 
 
     def searchGame(self, request, search_id):
-        conn = dbase()
+        conn = Singleton.dbase()
         cursor = conn.getCursor()
         cursor.execute ("select GameID, GameName from GameTable where GameName like '%%%s%%'" %search_id)
         return cursor.fetchall() 

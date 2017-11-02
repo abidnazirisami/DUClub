@@ -3,7 +3,7 @@ from fusioncharts import FusionCharts
 import MySQLdb
 import abc, six
 def makeChart(request):
-    conn=dbase()
+    conn=Singleton.dbase()
     cursor=conn.getCursor()
     cursor.execute("select distinct FoodName, FoodPrice from FoodItem")
     row=cursor.fetchall()

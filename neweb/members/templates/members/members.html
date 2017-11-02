@@ -76,6 +76,7 @@ $(document).ready(function(){
             <div class="input-field s8 offset-s2">
 
             <select id="dept" name="dept">
+        <option value="">--Select--</option>
      {% for dept in departments %}
      <option value="{{dept}}">{{dept}}</option>
      {% endfor %}
@@ -83,6 +84,7 @@ $(document).ready(function(){
     </div>
     <div class="input-field s8 offset-s2">
     <select id="designation" name="designation">
+    <option value="">--Select--</option>
      {% for designation in designations %}
      <option value="{{designation}}">{{designation}}</option>
      {% endfor %}
